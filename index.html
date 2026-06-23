@@ -6,26 +6,22 @@
 <title>Bedroom Rater — Brad & Wes</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Nunito:wght@300;400;600&display=swap');
-:root {
-  --navy:#22304A; --navy-dark:#1A2538; --plum:#252030;
-  --tc:#B85830; --tc-light:#D4703D; --tc-dim:rgba(184,88,48,0.15);
-  --cream:#F2EDE6; --text:#E8E2D8; --muted:rgba(232,226,216,0.45);
-  --star-on:#D4703D; --star-off:rgba(255,255,255,0.16);
-  --card:rgba(255,255,255,0.04); --border:rgba(255,255,255,0.07);
+:root{
+  --navy:#22304A;--navy-dark:#1A2538;--plum:#252030;
+  --tc:#B85830;--tc-light:#D4703D;--tc-dim:rgba(184,88,48,0.15);
+  --cream:#F2EDE6;--text:#E8E2D8;--muted:rgba(232,226,216,0.45);
+  --star-on:#D4703D;--star-off:rgba(255,255,255,0.16);
+  --card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.07);
   --img-h:320px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,sans-serif;font-weight:300;min-height:100vh;display:flex;flex-direction:column;}
-
-/* NAV TABS */
-.tab-nav{background:var(--navy-dark);border-bottom:2px solid var(--tc);display:flex;align-items:stretch;}
+.tab-nav{background:var(--navy-dark);border-bottom:2px solid var(--tc);display:flex;}
 .tab-btn{background:transparent;border:none;color:var(--muted);padding:10px 20px;font-family:'Nunito',sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color 0.15s,border-color 0.15s;}
 .tab-btn:hover{color:var(--text);}
 .tab-btn.active{color:var(--tc-light);border-bottom-color:var(--tc);}
 .tab-content{display:none;flex:1;flex-direction:column;}
 .tab-content.active{display:flex;}
-
-/* HEADER */
 .hdr{background:var(--navy-dark);padding:12px 24px 10px;text-align:center;}
 .hdr h1{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;letter-spacing:0.1em;color:var(--cream);text-transform:uppercase;}
 .version{font-size:0.6rem;color:var(--muted);letter-spacing:0.12em;margin-top:2px;}
@@ -38,18 +34,15 @@ body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,san
 .prog-label{font-size:0.68rem;color:var(--muted);letter-spacing:0.06em;white-space:nowrap;}
 .prog-track{width:200px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
 .prog-fill{height:100%;background:var(--tc);border-radius:2px;transition:width 0.4s;}
-
-/* PLACEHOLDER PAGES */
 .placeholder-page{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:60px 24px;text-align:center;}
 .placeholder-page h2{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--cream);letter-spacing:0.1em;}
 .placeholder-page p{font-size:0.85rem;color:var(--muted);max-width:400px;line-height:1.6;}
 .placeholder-icon{font-size:3.5rem;opacity:0.25;}
 .placeholder-note{font-size:0.72rem;color:var(--tc-light);letter-spacing:0.08em;border:1px solid rgba(184,88,48,0.3);padding:10px 18px;border-radius:3px;}
-
-/* MAIN VIEW */
 #view-lamps{flex:1;max-width:960px;width:100%;margin:0 auto;padding:0 0 60px;}
-
-/* SECTION DIVIDER */
+.loading-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:80px 24px;color:var(--muted);font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;}
+.loading-spinner{width:32px;height:32px;border:3px solid rgba(184,88,48,0.2);border-top-color:var(--tc);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 .sec-div{padding:16px 24px;background:var(--plum);border-top:2px solid var(--tc);border-bottom:2px solid var(--tc);text-align:center;}
 .sec-div h2{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--cream);}
 .sec-line{display:flex;align-items:center;gap:12px;justify-content:center;margin-top:4px;}
@@ -57,8 +50,6 @@ body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,san
 .sec-line .sc{font-size:0.65rem;color:var(--tc-light);letter-spacing:0.14em;}
 .add-lamp-btn{background:var(--tc-dim);border:1px solid var(--tc);color:var(--tc-light);padding:5px 14px;font-family:'Nunito',sans-serif;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;margin-top:9px;}
 .add-lamp-btn:hover{background:rgba(184,88,48,0.3);color:var(--cream);}
-
-/* ADD LAMP FORM */
 .add-lamp-form{background:var(--navy-dark);border:1px solid var(--tc);border-radius:3px;padding:16px 20px;margin:10px 24px;display:none;}
 .add-lamp-form h3{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--cream);margin-bottom:10px;letter-spacing:0.06em;}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-bottom:10px;}
@@ -73,8 +64,6 @@ body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,san
 .form-btns{display:flex;gap:8px;}
 .form-submit{background:var(--tc);border:none;color:var(--cream);padding:6px 16px;font-family:'Nunito',sans-serif;font-size:0.72rem;letter-spacing:0.08em;cursor:pointer;border-radius:2px;}
 .form-cancel{background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--muted);padding:6px 12px;font-family:'Nunito',sans-serif;font-size:0.72rem;cursor:pointer;border-radius:2px;}
-
-/* LAMP CARD */
 .lamp-card{padding:20px 24px 16px;border-bottom:1px solid var(--border);scroll-margin-top:70px;}
 .lamp-card.done{opacity:0.75;}
 .lamp-title{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:4px;}
@@ -83,24 +72,18 @@ body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,san
 .lamp-ht{display:inline-flex;align-items:center;gap:4px;font-size:0.82rem;font-weight:600;color:var(--cream);letter-spacing:0.06em;text-transform:uppercase;background:var(--tc);padding:3px 10px 3px 8px;border-radius:3px;white-space:nowrap;flex-shrink:0;}
 .lamp-ht::before{content:'\2195';font-size:0.76rem;opacity:0.85;}
 .lamp-note{font-size:0.66rem;color:var(--muted);font-style:italic;letter-spacing:0.04em;margin-bottom:12px;}
-
-/* CARD BODY */
 .card-body{display:flex;gap:16px;align-items:flex-start;}
 .panel-left{flex:1;min-width:0;}
 .panel-right{flex:0 0 200px;min-width:0;}
-
-/* GALLERY */
 .gallery{background:var(--navy-dark);border-radius:3px;overflow:hidden;}
 .gal-main{width:100%;height:var(--img-h);display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .gal-main img{width:100%;height:100%;object-fit:contain;display:block;}
 .gal-ph{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:0.7rem;letter-spacing:0.07em;text-align:center;padding:20px;}
 .gal-ph .ico{font-size:2rem;opacity:0.2;}
 .img-note{background:rgba(184,88,48,0.1);border-left:3px solid var(--tc);padding:4px 9px;font-size:0.62rem;color:var(--tc-light);letter-spacing:0.05em;}
-
-/* COLLAPSIBLE PHOTO SECTION */
 .photo-toggle{display:flex;align-items:center;gap:7px;padding:6px 10px;background:rgba(0,0,0,0.18);cursor:pointer;user-select:none;border:none;width:100%;text-align:left;color:var(--muted);font-family:'Nunito',sans-serif;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;}
 .photo-toggle:hover{background:rgba(0,0,0,0.28);color:var(--text);}
-.photo-toggle .caret{font-size:0.6rem;transition:transform 0.2s;}
+.photo-toggle .caret{font-size:0.6rem;transition:transform 0.2s;display:inline-block;}
 .photo-toggle.open .caret{transform:rotate(90deg);}
 .photo-panel{display:none;}
 .photo-panel.open{display:block;}
@@ -117,8 +100,6 @@ body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,san
 .img-controls input[type="text"]:focus{outline:1px solid var(--tc);}
 .img-controls button{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--text);padding:4px 8px;font-size:0.64rem;border-radius:2px;cursor:pointer;font-family:'Nunito',sans-serif;}
 .img-controls button:hover{background:rgba(255,255,255,0.12);}
-
-/* LINKS BAR */
 .links-bar{display:flex;justify-content:space-between;align-items:flex-start;gap:4px;margin-top:8px;}
 .link-slot{display:flex;flex-direction:column;gap:2px;}
 .link-slot.left{align-items:flex-start;text-align:left;}
@@ -128,14 +109,10 @@ body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,san
 .link-slot a:hover{color:var(--cream);border-bottom-color:var(--tc);}
 .link-info{font-size:0.59rem;color:var(--muted);letter-spacing:0.04em;}
 .link-empty{width:70px;}
-
-/* RATING PANEL */
 .rating-area{background:var(--card);border:1px solid var(--border);border-radius:3px;padding:13px 11px;}
 .rater-block{text-align:center;margin-bottom:11px;}
 .rater-block:last-of-type{margin-bottom:0;}
 .rater-name{font-size:0.63rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--tc-light);margin-bottom:7px;}
-
-/* HALF-STAR SVG RATINGS */
 .stars{display:flex;gap:2px;justify-content:center;}
 .star-wrap{position:relative;width:1.75rem;height:1.75rem;cursor:pointer;flex-shrink:0;}
 .star-wrap svg{width:100%;height:100%;display:block;overflow:visible;}
@@ -144,30 +121,24 @@ body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,san
 .star-left-hit{left:0;}
 .star-right-hit{right:0;}
 .score-disp{margin-top:4px;height:14px;font-size:0.63rem;color:var(--tc-light);letter-spacing:0.07em;}
-
-/* RESET + GUEST RATER CONTROLS */
-.rating-controls{display:flex;gap:5px;justify-content:center;margin-top:8px;}
-.rating-ctrl-btn{background:transparent;border:1px solid rgba(255,255,255,0.12);color:var(--muted);padding:3px 8px;font-family:'Nunito',sans-serif;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:2px;}
+.rating-ctrl-btn{background:transparent;border:1px solid rgba(255,255,255,0.12);color:var(--muted);padding:2px 7px;font-family:'Nunito',sans-serif;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:2px;margin-top:4px;}
 .rating-ctrl-btn:hover{background:rgba(255,255,255,0.07);color:var(--text);}
-
 .rater-divider{height:1px;background:var(--border);margin:9px 0;}
 .result-block{display:none;text-align:center;margin-top:9px;padding-top:9px;border-top:1px solid var(--border);}
 .res-label{font-size:0.57rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2px;}
 .res-scores{font-size:0.66rem;color:var(--text);margin-bottom:4px;}
 .res-avg{font-family:'Cormorant Garamond',serif;font-size:1.85rem;color:var(--tc);font-weight:500;line-height:1;}
 .res-avg-label{font-size:0.57rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:1px;}
-
-/* GUEST RATING FORM */
-.guest-form{margin-top:9px;padding-top:9px;border-top:1px solid var(--border);}
-.guest-form-inner{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-.guest-form input[type="text"]{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--text);padding:4px 7px;font-size:0.68rem;border-radius:2px;font-family:'Nunito',sans-serif;width:80px;}
-.guest-form input[type="number"]{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--text);padding:4px 7px;font-size:0.68rem;border-radius:2px;font-family:'Nunito',sans-serif;width:52px;}
-.guest-form input:focus{outline:1px solid var(--tc);}
-.guest-submit{background:var(--tc-dim);border:1px solid var(--tc);color:var(--tc-light);padding:4px 9px;font-family:'Nunito',sans-serif;font-size:0.64rem;letter-spacing:0.08em;cursor:pointer;border-radius:2px;}
+.res-guest{font-size:0.6rem;color:var(--muted);margin-top:4px;}
+/* GUEST RATING with stars */
+.guest-section{margin-top:9px;padding-top:9px;border-top:1px solid var(--border);}
+.guest-label{font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;text-align:center;}
+.guest-name-row{display:flex;gap:5px;align-items:center;margin-bottom:6px;}
+.guest-name-row input{flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--text);padding:4px 7px;font-size:0.68rem;border-radius:2px;font-family:'Nunito',sans-serif;}
+.guest-name-row input:focus{outline:1px solid var(--tc);}
+.guest-stars-row{display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:6px;}
+.guest-submit{display:block;width:100%;background:var(--tc-dim);border:1px solid var(--tc);color:var(--tc-light);padding:4px;font-family:'Nunito',sans-serif;font-size:0.64rem;letter-spacing:0.08em;cursor:pointer;border-radius:2px;text-align:center;}
 .guest-submit:hover{background:rgba(184,88,48,0.3);}
-.guest-label{font-size:0.6rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;}
-
-/* BOTTOM NAV */
 .bottom-nav-bar{background:var(--navy-dark);border-top:2px solid var(--tc);padding:11px 20px;max-width:960px;width:100%;margin:0 auto;}
 .bnav-inner{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap;}
 .bnav-info{font-size:0.65rem;color:var(--muted);letter-spacing:0.05em;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -181,8 +152,6 @@ body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,san
 .bnav-btn:disabled{opacity:0.28;cursor:not-allowed;}
 .bnav-btn.primary{background:var(--tc);border-color:var(--tc);color:var(--cream);font-weight:600;}
 .bnav-btn.primary:hover{background:var(--tc-light);}
-
-/* SUMMARY */
 #summary-lamps{display:none;padding:26px 24px 40px;max-width:960px;margin:0 auto;}
 .sum-hdr{font-family:'Cormorant Garamond',serif;font-size:1.55rem;color:var(--cream);margin-bottom:4px;}
 .sum-sub{font-size:0.68rem;color:var(--muted);letter-spacing:0.09em;margin-bottom:18px;}
@@ -201,15 +170,10 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 .td-lk a:hover{color:var(--cream);}
 .restart{margin-top:20px;display:block;width:fit-content;background:transparent;border:1px solid var(--tc);color:var(--tc-light);padding:7px 18px;font-family:'Nunito',sans-serif;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-radius:2px;}
 .restart:hover{background:var(--tc-dim);color:var(--cream);}
-
 @media(max-width:620px){
   .card-body{flex-direction:column;}
   .panel-right{flex:none;width:100%;}
-  .rating-area{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:10px;}
-  .rater-block{flex:1;min-width:140px;}
-  .rater-divider{display:none;}
-  .result-block{width:100%;border-top:1px solid var(--border);}
-  .guest-form{width:100%;}
+  .rating-area{padding:10px;}
   .gal-main{height:220px;}
   .star-wrap{width:2rem;height:2rem;}
   .links-bar{flex-wrap:wrap;}
@@ -221,34 +185,34 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 </head>
 <body>
 
-<!-- TAB NAV -->
 <nav class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('lamps')">Lamps</button>
   <button class="tab-btn" onclick="switchTab('rugs')">Rugs</button>
   <button class="tab-btn" onclick="switchTab('dressers')">Dressers</button>
 </nav>
 
-<!-- LAMPS TAB -->
 <div class="tab-content active" id="tab-lamps">
   <div class="hdr">
     <h1>Bedroom Lamp Rater</h1>
-    <div class="version" id="version-label">v3.0</div>
+    <div class="version">v4.0</div>
     <div class="sync-status" id="sync-status"></div>
     <div class="prog-row">
-      <span class="prog-label" id="pt">0 of 0 rated</span>
+      <span class="prog-label" id="pt">Loading...</span>
       <div class="prog-track"><div class="prog-fill" id="pf" style="width:0%"></div></div>
-      <span class="prog-label" id="pp">0%</span>
+      <span class="prog-label" id="pp"></span>
     </div>
   </div>
-  <div id="view-lamps"></div>
+  <div id="view-lamps">
+    <div class="loading-state"><div class="loading-spinner"></div>Loading lamps...</div>
+  </div>
   <div id="summary-lamps"></div>
   <div class="bottom-nav-bar">
     <div class="bnav-inner">
       <span class="bnav-info" id="bnav-info">Loading...</span>
       <div class="bnav-prog-wrap">
-        <span class="bnav-label" id="bnav-pt">0 rated</span>
+        <span class="bnav-label" id="bnav-pt"></span>
         <div class="bnav-track"><div class="bnav-fill" id="bnav-pf" style="width:0%"></div></div>
-        <span class="bnav-label" id="bnav-pp">0%</span>
+        <span class="bnav-label" id="bnav-pp"></span>
       </div>
       <div class="bnav-btns">
         <button class="bnav-btn" id="btn-back" onclick="navTo(currentIdx-1)" disabled>&#8592; Back</button>
@@ -259,33 +223,29 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
   </div>
 </div>
 
-<!-- RUGS TAB -->
 <div class="tab-content" id="tab-rugs">
   <div class="placeholder-page">
     <div class="placeholder-icon">&#x1F9F6;</div>
     <h2>Rugs</h2>
-    <p>This section is ready for when you have rug options to review. Just share the links and details and this page will be set up the same way as Lamps — images, star ratings, purchase links, and a ranked results table.</p>
+    <p>Ready when you are. Share rug candidates and this page will be fully built out with the same rating system — images, half-star ratings, purchase links, and ranked results.</p>
     <div class="placeholder-note">Coming soon — share your rug candidates to get started</div>
   </div>
 </div>
 
-<!-- DRESSERS TAB -->
 <div class="tab-content" id="tab-dressers">
   <div class="placeholder-page">
     <div class="placeholder-icon">&#x1F6CB;&#xFE0F;</div>
     <h2>Dressers</h2>
-    <p>This section is ready for when you have dresser options to review. Share the links and details whenever you're ready and it will be fully built out with the same rating system.</p>
+    <p>Ready when you are. Share dresser candidates and this page will be fully built out with the same rating system.</p>
     <div class="placeholder-note">Coming soon — share your dresser candidates to get started</div>
   </div>
 </div>
 
 <script>
-// ─── VERSION ──────────────────────────────────────────────────────────────────
-var VERSION = '3.0';
-
-// ─── SUPABASE ─────────────────────────────────────────────────────────────────
+var VERSION = '4.0';
 var SUPA_URL = 'https://iqelgfyryuqnshkqqkod.supabase.co';
 var SUPA_KEY = 'sb_publishable_ko0ExD_VzJC3a_aN5XiQBg_FjajDrGN';
+
 function supaFetch(path, method, body) {
   return fetch(SUPA_URL + '/rest/v1/' + path, {
     method: method || 'GET',
@@ -295,107 +255,95 @@ function supaFetch(path, method, body) {
       'Prefer': method === 'POST' ? 'resolution=merge-duplicates' : ''
     },
     body: body ? JSON.stringify(body) : undefined
-  }).then(function(r) { return r.ok ? r.json() : r.json().then(function(e){ throw e; }); });
+  }).then(function(r) {
+    if (r.status === 204) return [];
+    return r.json().then(function(d) {
+      if (!r.ok) throw d;
+      return d;
+    });
+  });
 }
+
 function setStatus(msg, cls) {
-  var el = document.getElementById('sync-status');
-  if (!el) return;
+  var el = document.getElementById('sync-status'); if (!el) return;
   el.textContent = msg; el.className = 'sync-status ' + (cls || '');
   if (cls === 'saved') setTimeout(function() { if (el.textContent === msg) { el.textContent = ''; el.className = 'sync-status'; } }, 2500);
 }
 
-// ─── TAB SWITCHING ────────────────────────────────────────────────────────────
+// ─── TAB ──────────────────────────────────────────────────────────────────────
 function switchTab(name) {
   document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.remove('active'); });
   document.querySelectorAll('.tab-btn').forEach(function(el) { el.classList.remove('active'); });
-  var tc = document.getElementById('tab-' + name);
-  if (tc) tc.classList.add('active');
-  var btns = document.querySelectorAll('.tab-btn');
-  btns.forEach(function(b) { if (b.textContent.trim().toLowerCase() === name) b.classList.add('active'); });
+  var tc = document.getElementById('tab-' + name); if (tc) tc.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(function(b) {
+    if (b.textContent.trim().toLowerCase() === name) b.classList.add('active');
+  });
 }
 
-// ─── LAMP DATA ────────────────────────────────────────────────────────────────
-var LAMPS = [
-  {sec:'bedside',id:'B1',name:'Graham Terracotta Velvet Table Lamp',brand:'Mercer41/TOV',height:'23"H',note:'Velvet terracotta, brass trim',img:'https://assets.wfcdn.com/im/85826794/resize-h1200-w1200%5Ecompr-r85/3465/346583460/Graham+Terracotta+Velvet+Table+Lamp-113696740-113696745.jpg',links:[{store:'Wayfair',url:'https://www.wayfair.com/lighting/pdp/mercer41-graham-terracotta-velvet-table-lamp-stmh5775.html?piid=113696740%2C113696745',info:'In stock — terracotta'},{store:'TOV Furniture',url:'https://www.tovfurniture.com/products/graham-terracotta-velvet-table-lamp',info:'Direct from maker'},{store:'Houzz',url:'https://www.houzz.com/products/graham-terracotta-velvet-table-lamp-prvw-vr~173985041',info:'Compare prices'}]},
-  {sec:'bedside',id:'B2',name:'Nourison 22" Orange Terracotta Ceramic',brand:'Nourison',height:'22"H',note:'Warm orange, oatmeal linen shade',img:'https://m.media-amazon.com/images/I/81rFb87loCL._AC_SL1500_.jpg',links:[{store:'Amazon',url:'https://www.amazon.com/Nourison-Modern-Orange-Terracotta-Table/dp/B0BVX7341N',info:'Prime eligible'},{store:'Target',url:'https://www.target.com/p/22-ceramic-table-lamp-nourison/-/A-1002759900?preselect=88889037#lnk=sametab',info:'5% RedCard + 20% vet'},{store:'Nourison Direct',url:'https://www.nourison.com/23-bit05-terracotta-ceramic-table-lamp',info:'Direct from maker'}]},
-  {sec:'bedside',id:'B3',name:'Latitude Run Burlison Makurdi Lamps',brand:'Latitude Run',height:'~26"H',note:'Burnt orange ceramic, set of 2',img:'https://assets.wfcdn.com/im/37486313/resize-h1200-w1200%5Ecompr-r85/3642/364252343/Burlison+Makurdi+Table+Lamps-792193339-792193340.jpg',links:[{store:'Wayfair',url:'https://www.wayfair.com/lighting/pdp/latitude-run-burlison-makurdi-table-lamps-w115029408.html?piid=792193339%2C792193340',info:'Set of 2 — free ship'},{store:'Walmart',url:'https://www.walmart.com/search?q=Latitude+Run+Burlison+Makurdi+Table+Lamps',info:'Compare price'},{store:'Amazon',url:'https://www.amazon.com/s?k=Latitude+Run+Burlison+Makurdi+Table+Lamps',info:'Check for deals'}]},
-  {sec:'bedside',id:'B4',name:'Hokku Designs Meent Ceramic Table Lamp',brand:'Hokku Designs',height:'~22"H',note:'Warm ceramic base',img:'https://assets.wfcdn.com/im/41842407/resize-h1200-w1200%5Ecompr-r85/4231/423195361/Meent+Ceramic+Table+Lamp-1010516068.jpg',links:[{store:'Wayfair',url:'https://www.wayfair.com/lighting/pdp/hokku-designs-meent-ceramic-table-lamp-w110943117.html?piid=1010516068',info:'Free shipping'},{store:'Amazon',url:'https://www.amazon.com/s?k=Hokku+Designs+Meent+Ceramic+Table+Lamp',info:'Check for deals'},{store:'Overstock',url:'https://www.overstock.com/search?keywords=Hokku+Designs+Meent+Ceramic+Table+Lamp',info:'Compare price'}]},
-  {sec:'bedside',id:'B5',name:'Latitude Run Skyline Geometric Wooden',brand:'Latitude Run',height:'~24"H',note:'Wood geometric, warm natural tone',img:'https://assets.wfcdn.com/im/44987507/resize-h1200-w1200%5Ecompr-r85/4049/404959951/Skyline+Geometric+Wooden+Table+Lamp-919960052-919960056.jpg',links:[{store:'Wayfair',url:'https://www.wayfair.com/lighting/pdp/latitude-run-skyline-geometric-wooden-table-lamp-w117971908.html?piid=919960052%2C919960056',info:'Free shipping'},{store:'Amazon',url:'https://www.amazon.com/s?k=Latitude+Run+Skyline+Geometric+Wooden+Table+Lamp',info:'Check for deals'},{store:'AllModern',url:'https://www.allmodern.com/lighting/sb2/wooden-table-lamps-c416503-a123804~433571.html',info:'Similar wood lamps'}]},
-  {sec:'bedside',id:'B6',name:'Ashley Farberman Amber Glass',brand:'Ashley',height:'~28"H',note:'Carved amber glass, gold accents, 3-way switch',img:'https://m.media-amazon.com/images/I/618UJ7Z7beL._AC_SL1500_.jpg',links:[{store:'Amazon',url:'https://www.amazon.com/Signature-Design-Ashley-Farberman-Transitional/dp/B0FCM9Q5N7',info:'Prime eligible'},{store:'Ashley Direct',url:'https://www.ashleyfurniture.com/p/farberman_table_lamp/L430864.html',info:'Direct from maker'},{store:'Wayfair (similar)',url:'https://www.wayfair.com/lighting/sb2/amber-glass-table-lamps-c416503-a76341~279432-a123804~433571-a113497~445649.html',info:'Compare amber glass'}]},
-  {sec:'bedside',id:'B8',name:'Nourison 20" Rustic Terracotta Ceramic Pot',brand:'Nourison',height:'20"H',note:'Unglazed clay feel, organic texture',img:'https://m.media-amazon.com/images/I/81ANCx3RciL._AC_SL1500_.jpg',links:[{store:'Amazon',url:'https://www.amazon.com/Nourison-Terracotta-Ceramic-Bedroom-Console/dp/B0D6BZZLPX',info:'Prime eligible'},{store:'Target',url:'https://www.target.com/p/23-farmhouse-ceramic-urn-pot-table-lamp-nourison/-/A-88151818?preselect=88888827#lnk=sametab',info:'5% RedCard + 20% vet'},{store:'Nourison Direct',url:'https://www.nourison.com/terracotta-ceramic-pot-table-lamp',info:'Direct from maker'}]},
-  {sec:'bedside',id:'B9',name:'Nourison 23" Rust Orange Ceramic Pot',brand:'Nourison',height:'23"H',note:'White tapered drum shade — select rust/orange colorway',img:'https://m.media-amazon.com/images/I/81dHS-QGnbL._AC_SL1500_.jpg',links:[{store:'Amazon',url:'https://www.amazon.com/Nourison-Terracotta-Ceramic-Bedroom-Tapered/dp/B0BVSQ4YDH',info:'Prime eligible'},{store:'Target',url:'https://www.target.com/p/23-farmhouse-ceramic-urn-pot-table-lamp-nourison/-/A-88151818?preselect=88888827#lnk=sametab',info:'5% RedCard + 20% vet'},{store:'Nourison Direct',url:'https://www.nourison.com/23-bit05-terracotta-ceramic-table-lamp',info:'Direct from maker'}]},
-  {sec:'bedside',id:'B10',name:'Nkuku Baba Recycled Burnt Amber Glass',brand:'Nkuku',height:'~18"H base',note:'Hand-blown recycled glass, hammered finish, UK artisan brand',img:'https://www.freyza.com/cdn/shop/files/nkuku-baba-recycled-burnt-amber-glass-table-lamp-large-tall-amos-lighting-home.jpg?v=1771387585&width=1946',links:[{store:'Freyza (US)',url:'https://www.freyza.com/products/nkuku-baba-recycled-burnt-amber-glass-table-lamp-large-tall',info:'US stock'},{store:'DecorateShopUS',url:'https://www.decorateshopus.com/lighting/shop-by-type/table-lamps/',info:'~$93.99 sale price'},{store:'Nkuku Direct (UK)',url:'https://www.nkuku.com/products/baba-recycled-glass-lamp-burnt-amber-large-tall-bl83',info:'Ships internationally'}]},
-  {sec:'bedside',id:'B11',name:'Joycelyn Table Lamp 27" (Rejuvenation)',brand:'Rejuvenation',height:'27"H',note:'Verify warm/orange colorway at link before rating',imgNote:'Multiple finishes — confirm correct warm color',img:'https://assets.rjimgs.com/rjimgs/rk/images/dp/wcm/202605/0060/joycelyn-table-lamp-xl.jpg',links:[{store:'Rejuvenation',url:'https://www.rejuvenation.com/products/joycelyn-table-lamp/',info:'Select warm colorway'},{store:'West Elm',url:'https://www.westelm.com/search/results.html?words=joycelyn+table+lamp',info:'Check for deals'},{store:'Pottery Barn (similar)',url:'https://www.potterybarn.com/search/results.html?words=amber+glass+table+lamp+27',info:'Similar amber glass 27"'}]},
-  {sec:'bedside',id:'B12',name:'McGee & Co. Kefi Table Lamp',brand:'McGee & Co.',height:'25.25"H',note:'Amphora silhouette, brass details — select Natural Terracotta',imgNote:'Select "Natural Terracotta" in the finish dropdown',img:'https://www.mcgeeandco.com/cdn/shop/files/KefiTableLamp-MLHT2068-TER-OS-MAIN-T.jpg?v=1771971564&width=1200',links:[{store:'McGee & Co.',url:'https://www.mcgeeandco.com/products/kefi-table-lamp',info:'Select Natural Terracotta'},{store:'Target (Studio McGee)',url:'https://www.target.com/s?searchTerm=studio+mcgee+terracotta+table+lamp',info:'5% RedCard + 20% vet'},{store:'Amazon',url:'https://www.amazon.com/s?k=mcgee+kefi+terracotta+table+lamp',info:'Check for deals'}]},
-  {sec:'bedside',id:'B14',name:'CB2 Arie Amber Glass Table Lamp',brand:'CB2',height:'~20"H',note:'Clean amber glass silhouette, modern form',img:'https://cb2.scene7.com/is/image/CB2/ArieAmberGlassTableLampSHS26?$web_pdp_main_carousel_high$',links:[{store:'CB2',url:'https://www.cb2.com/arie-amber-glass-table-lamp/s447078',info:'Free ship on $49+'},{store:'Crate & Barrel',url:'https://www.crateandbarrel.com/search?query=amber+glass+table+lamp',info:'Sister store — compare'},{store:'Amazon (dupe)',url:'https://www.amazon.com/s?k=amber+glass+table+lamp+modern+20+inch',info:'Similar amber glass lamps'}]},
-  {sec:'bedside',id:'B15',name:'Amazon Lamp B0G6RMSFXQ',brand:'Unknown',height:'Unknown',note:'Verify product at link before rating',img:'https://m.media-amazon.com/images/I/71y3KjCEZOL._AC_SL1500_.jpg',links:[{store:'Amazon',url:'https://www.amazon.com/dp/B0G6RMSFXQ',info:'Verify product first'},{store:'Google Search',url:'https://www.google.com/search?q=B0G6RMSFXQ+lamp',info:'Find alternatives'},{store:'Wayfair (similar)',url:'https://www.wayfair.com/lighting/sb2/orange-table-lamps-c416503-a76341~279432-a123804~433571.html',info:'Similar orange lamps'}]},
-  {sec:'bedside',id:'B16',name:'Pottery Barn Canyon Ceramic (Natural Terracotta)',brand:'Pottery Barn',height:'24-28"H',note:'Handcrafted terracotta clay — select Natural Terracotta',imgNote:'Select "Natural Terracotta" color at Pottery Barn',img:'https://assets.pbimgs.com/pbimgs/rk/images/dp/wcm/202613/0115/img336xl.jpg',links:[{store:'Pottery Barn',url:'https://www.potterybarn.com/products/canyon-ceramic-table-lamp/',info:'Select Natural Terracotta'},{store:'eBay',url:'https://www.ebay.com/sch/i.html?_nkw=pottery+barn+canyon+ceramic+table+lamp+terracotta',info:'Check resale/open box'},{store:'Facebook Marketplace',url:'https://www.facebook.com/marketplace/search/?query=pottery%20barn%20canyon%20table%20lamp',info:'Local deals'}]},
-  {sec:'bedside',id:'B17',name:'Reaketon Orange Ceramic Set of 2',brand:'Reaketon',height:'20"H',note:'Orange glaze, set of 2, farmhouse nightstand style',img:'https://m.media-amazon.com/images/I/81uTFs1mV-L._AC_SL1500_.jpg',links:[{store:'Amazon',url:'https://www.amazon.com/Reaketon-Living-Ceramic-Bedroom-Modern/dp/B0G57KD749/',info:'Set of 2 — Prime'},{store:'Walmart',url:'https://www.walmart.com/search?q=Reaketon+orange+ceramic+table+lamp',info:'Compare price'},{store:'Target (similar)',url:'https://www.target.com/s?searchTerm=orange+ceramic+table+lamp+set+of+2',info:'5% RedCard + 20% vet'}]},
-  {sec:'bedside',id:'B18',name:'PARTPHONER 23" Farmhouse Orange Ceramic (Set of 2)',brand:'PARTPHONER',height:'23"H',note:'Rustic farmhouse, textured orange ceramic, set of 2',img:'https://m.media-amazon.com/images/I/91b8fjPFJDL._AC_SL1500_.jpg',links:[{store:'Amazon',url:'https://www.amazon.com/PARTPHONER-Ceramic-Farmhouse-Bedside-Nightstand/dp/B0F382FMR8/',info:'Set of 2 — Prime'},{store:'Walmart',url:'https://www.walmart.com/search?q=PARTPHONER+orange+ceramic+farmhouse+table+lamp',info:'Compare price'},{store:'Target (similar)',url:'https://www.target.com/s?searchTerm=farmhouse+orange+ceramic+table+lamp+23',info:'5% RedCard + 20% vet'}]},
-  {sec:'bedside',id:'B19',name:'Threshold Large Ceramic Table Lamp (Target)',brand:'Threshold',height:'21.25"H',note:'Large ceramic, warm terracotta-adjacent tones — Target exclusive',img:'https://target.scene7.com/is/image/Target/GUEST_460eb705-dc8e-4c86-b07c-61b3b7ef300b?wid=1200&hei=1200&qlt=80',links:[{store:'Target',url:'https://www.target.com/p/21-25-x17-large-ceramic-table-lamp-threshold/-/A-94992482?preselect=94309530#lnk=sametab',info:'5% RedCard + 20% vet'},{store:'Target (similar)',url:'https://www.target.com/s?searchTerm=threshold+ceramic+table+lamp+large',info:'Browse Threshold ceramics'},{store:'Amazon (dupe)',url:'https://www.amazon.com/s?k=large+ceramic+table+lamp+terracotta+21+inch',info:'Similar lamps'}]},
-  {sec:'accent',id:'A1',name:'George Oliver Stacked Bubble Glass (Orange)',brand:'George Oliver',height:'10.5"H',note:'Dimmable, adjustable color temp, woven cord',img:'https://assets.wfcdn.com/im/81566441/resize-h1200-w1200%5Ecompr-r85/4243/424329844/10.5%22+Stacked+Bubble+Glass+Table+Lamp%2C+Dimmable+E12+Accent+Lamp+With+Adjustable+Color+Temperature%2C+Modern+Bedside+Lamp+With+Woven+Cord+For+Bedroom%2C+Living+Room+%26+Hotel-1523937399.jpg',links:[{store:'Wayfair',url:'https://www.wayfair.com/lighting/pdp/george-oliver-105-stacked-bubble-glass-table-lamp-dimmable-e12-accent-lamp-with-adjustable-color-temperature-modern-bedside-lamp-with-woven-cord-for-bedroom-living-room-hotel-w118910581.html?piid=1523937399',info:'Free shipping'},{store:'Amazon (dupe)',url:'https://www.amazon.com/s?k=stacked+bubble+glass+table+lamp+orange+dimmable',info:'Similar bubble glass'},{store:'Overstock',url:'https://www.overstock.com/search?keywords=stacked+glass+orange+accent+lamp',info:'Compare price'}]},
-  {sec:'accent',id:'A2',name:'Kotko Orange Mushroom Lamp',brand:'Kotko',height:'~8"H',note:'Retro orange mushroom accent',img:'https://m.media-amazon.com/images/I/71+vKq258dL._AC_SL1500_.jpg',links:[{store:'Amazon',url:'https://www.amazon.com/Kotko-Orange-Mushroom-Lamp-Bedroom/dp/B0FN4KWBBX/',info:'Prime eligible'},{store:'Walmart',url:'https://www.walmart.com/search?q=orange+mushroom+accent+lamp',info:'Compare price'},{store:'Target (similar)',url:'https://www.target.com/s?searchTerm=orange+mushroom+lamp+accent',info:'5% RedCard + 20% vet'}]},
-  {sec:'accent',id:'A3',name:'World Market Rocco Amber Glass Uplight',brand:'World Market',height:'8.5"H',note:'Retro double-walled amber glass, warm upward glow',img:'https://www.worldmarket.com/dw/image/v2/BJWT_PRD/on/demandware.static/-/Sites-wm-master-catalog/default/dwc50d8a48/images/large/130611_XXX_v2.jpg?sw=2000&sh=2000&sm=fit&sfrm=jpg&q=80',links:[{store:'World Market',url:'https://www.worldmarket.com/p/rocco-amber-glass-and-wood-curved-geo-up-light-table-lamp-646506.html',info:'Free on $65+'},{store:'Amazon (dupe)',url:'https://www.amazon.com/s?k=amber+glass+uplight+table+lamp+retro',info:'Similar amber uplights'},{store:'Wayfair (similar)',url:'https://www.wayfair.com/lighting/sb2/amber-glass-table-lamps-c416503-a76341~279432.html',info:'Browse amber glass'}]},
-  {sec:'accent',id:'A4',name:'World Market Cyra Amber Mouth-Blown Glass',brand:'World Market',height:'18"H',note:'Handblown amber glass base — shade sold separately',img:'https://www.worldmarket.com/dw/image/v2/BJWT_PRD/on/demandware.static/-/Sites-wm-master-catalog/default/dw1c05cb6a/images/large/107379_XXX_v3.jpg?sw=2000&sh=2000&sm=fit&sfrm=tif&q=80',links:[{store:'World Market',url:'https://www.worldmarket.com/p/cyra-amber-glass-table-lamp-base-607851.html',info:'Shade sold separately'},{store:'Amazon (dupe)',url:'https://www.amazon.com/s?k=amber+mouth+blown+glass+table+lamp+base+18+inch',info:'Similar blown glass'},{store:'CB2 (similar)',url:'https://www.cb2.com/arie-amber-glass-table-lamp/s447078',info:'Arie amber — comparable'}]},
-  {sec:'accent',id:'A5',name:'Aurelia Amber Dimmable Desk Lamp (HedyaDesign)',brand:'HedyaDesign',height:'~10"H',note:'Mid-century modern, dimmable, $92.80 — ships from Chicago',img:'https://i.etsystatic.com/52761284/r/il/5c4dfe/6822222000/il_1588xN.6822222000_jix5.jpg',links:[{store:'Etsy (HedyaDesign)',url:'https://www.etsy.com/listing/4297438358/amber-table-lamp-aurelia-dimmable-desk',info:'$92.80 · Ships Chicago'},{store:'Amazon (dupe)',url:'https://www.amazon.com/s?k=amber+dimmable+accent+table+lamp+mid+century',info:'Similar MCM amber accent'},{store:'Wayfair (similar)',url:'https://www.wayfair.com/lighting/sb2/amber-glass-accent-table-lamps-c416503-a76341~279432-a113497~445649.html',info:'Compare amber accents'}]},
-  {sec:'accent',id:'A6',name:'IKEA VARMBLIXT LED Orange Glass Donut',brand:'IKEA',height:'12" round',note:'Hand-blown orange glass, LED built-in, wall or table, dimmable',img:'https://www.thenordroom.com/wp-content/uploads/2023/01/IKEA-VARMBLIXT-warm-yellow-wall-lamp-nordroom-1125x1500.jpg',links:[{store:'IKEA',url:'https://www.ikea.com/us/en/p/varmblixt-led-table-wall-lamp-orange-glass-round-90525150/',info:'Also wall-mountable'},{store:'eBay (used)',url:'https://www.ebay.com/sch/i.html?_nkw=IKEA+VARMBLIXT+orange+glass+lamp',info:'Check for deals'},{store:'Facebook Marketplace',url:'https://www.facebook.com/marketplace/search/?query=IKEA%20VARMBLIXT%20lamp',info:'Local deals'}]},
-  {sec:'accent',id:'A8',name:'World Market Chaya Amber Blown Glass',brand:'World Market',height:'15.75"H',note:'Stacked handblown amber glass tiers, empire shade',img:'https://www.worldmarket.com/dw/image/v2/BJWT_PRD/on/demandware.static/-/Sites-wm-master-catalog/default/dwc400b99c/images/large/130606_XXX_v1.jpg?sw=2000&sh=2000&sm=fit&sfrm=jpg&q=80',links:[{store:'World Market',url:'https://www.worldmarket.com/p/chaya-amber-blown-glass-wavy-stacked-empire-shade-table-lamp-646513.html',info:'Free on $65+'},{store:'Amazon (dupe)',url:'https://www.amazon.com/s?k=stacked+amber+blown+glass+table+lamp+empire+shade',info:'Similar stacked glass'},{store:'Wayfair (similar)',url:'https://www.wayfair.com/lighting/sb2/amber-glass-table-lamps-c416503-a76341~279432.html',info:'Browse amber glass'}]},
-  {sec:'accent',id:'A10',name:'DAP77ART Handmade Orange Ceramic (Etsy)',brand:'DAP77ART',height:'Small',note:'Hand-thrown, UL listed, scallop petal shade, made to order',img:'https://i.etsystatic.com/21867185/r/il/ca8078/6143511209/il_1588xN.6143511209_sv93.jpg',links:[{store:'Etsy (DAP77ART)',url:'https://www.etsy.com/listing/1755329821/handmade-orange-ceramic-small-table-lamp',info:'Made to order'},{store:'Etsy (dupes)',url:'https://www.etsy.com/search?q=handmade+orange+ceramic+table+lamp+scallop',info:'Similar handmade'},{store:'Amazon (similar)',url:'https://www.amazon.com/s?k=handmade+orange+ceramic+table+lamp+small',info:'Compare options'}]},
-  {sec:'accent',id:'A11',name:'Sculptural Organic Walnut Lamp (STAC)',brand:'STAC',height:'Unknown',note:'Walnut-toned base, matte white shade — sculptural; not orange',img:'https://i.etsystatic.com/48967115/r/il/6fbb49/7959451742/il_1588xN.7959451742_ksyp.jpg',links:[{store:'Etsy (STAC)',url:'https://www.etsy.com/listing/4495803537',info:'Ships US'},{store:'Etsy (similar)',url:'https://www.etsy.com/search?q=sculptural+walnut+wood+table+lamp+organic',info:'Similar sculptural'},{store:'Amazon (similar)',url:'https://www.amazon.com/s?k=sculptural+wood+table+lamp+organic+modern',info:'Compare options'}]},
-  {sec:'accent',id:'A12',name:'ARLO Mini Ring Lamp (Etsy)',brand:'Etsy',height:'Small',note:'Modern cylinder ring light, warm minimalist ambient glow',img:'https://i.etsystatic.com/48967115/r/il/ca10aa/7457628238/il_1588xN.7457628238_alx2.jpg',links:[{store:'Etsy',url:'https://www.etsy.com/listing/4413637379',info:'Small ambient accent'},{store:'Amazon (similar)',url:'https://www.amazon.com/s?k=modern+ring+cylinder+ambient+table+lamp+small',info:'Compare options'},{store:'Wayfair (similar)',url:'https://www.wayfair.com/lighting/sb2/cylinder-table-lamps-c416503-a113497~445648.html',info:'Browse cylinder lamps'}]},
-  {sec:'accent',id:'A13',name:'MCM Brass Wall Sconces — Orange (Etsy)',brand:'Etsy',height:'10"H',note:'Mid-century Italian diabolo, orange + brass — WALL SCONCES, pair, hardwired',img:'https://i.etsystatic.com/60283207/r/il/ca3cb7/7311371225/il_1588xN.7311371225_aoav.jpg',links:[{store:'Etsy',url:'https://www.etsy.com/listing/4382596661',info:'Pair · Wall-mounted · Hardwired'},{store:'Etsy (similar)',url:'https://www.etsy.com/search?q=mid+century+brass+diabolo+wall+sconce+orange',info:'Similar MCM sconces'},{store:'Amazon (similar)',url:'https://www.amazon.com/s?k=mid+century+brass+wall+sconce+orange+pair',info:'Compare options'}]},
-  {sec:'accent',id:'A14',name:'TALT Ambient Tapered Lamp (OireConcepts)',brand:'OireConcepts',height:'Small',note:'Tapered ambient accent, ships from Chicago',img:'https://i.etsystatic.com/48967115/r/il/d1045f/7005058838/il_1588xN.7005058838_6pl8.jpg',links:[{store:'Etsy (OireConcepts)',url:'https://www.etsy.com/listing/1843880013/ambient-table-lamp-tapered-style-lamp',info:'Ships Chicago'},{store:'Etsy (similar)',url:'https://www.etsy.com/search?q=tapered+ambient+table+lamp+modern',info:'Similar tapered lamps'},{store:'Amazon (similar)',url:'https://www.amazon.com/s?k=tapered+ambient+accent+table+lamp+modern',info:'Compare options'}]},
-  {sec:'accent',id:'A15',name:'MCM Gold/Green Glass Arc Lamp (Etsy)',brand:'Etsy',height:'Floor lamp',note:'Green glass shade, dimmable, customizable via seller',img:'https://i.etsystatic.com/62454049/r/il/cfb4af/8078590504/il_1588xN.8078590504_5kis.jpg',links:[{store:'Etsy',url:'https://www.etsy.com/listing/4513719532',info:'Green glass · Customizable'},{store:'Etsy (amber version)',url:'https://www.etsy.com/search?q=mid+century+arc+floor+lamp+amber+glass+gold',info:'Search amber version'},{store:'Amazon (similar)',url:'https://www.amazon.com/s?k=mid+century+arc+floor+lamp+colored+glass+gold',info:'Compare options'}]},
-  {sec:'accent',id:'A16',name:'DUNE Bedside Lamp Set of 2 (SF Studio)',brand:'SF Studio',height:'11.5"H',note:'Amber light shield, smart LED, app/voice control, eco bioplastic',img:'https://i.etsystatic.com/50282531/r/il/66580f/6200340970/il_1588xN.6200340970_okpn.jpg',links:[{store:'Etsy (SF Studio)',url:'https://www.etsy.com/listing/1779098179/bedside-lamp-set-of-2-mid-century-modern',info:'Set of 2 · Smart LED'},{store:'Etsy (similar)',url:'https://www.etsy.com/search?q=smart+dimmable+amber+bedside+lamp+set+of+2',info:'Similar smart lamps'},{store:'Amazon (similar)',url:'https://www.amazon.com/s?k=amber+smart+led+bedside+lamp+set+of+2',info:'Compare options'}]},
-  {sec:'accent',id:'A17',name:'Yuzen Straight Table Lamp (Materia3D)',brand:'Materia3D',height:'Small',note:'3D-printed, dimmer switch, soft warm glow, USB powered',img:'https://i.etsystatic.com/34483631/r/il/858063/5601218190/il_1588xN.5601218190_q1fn.jpg',links:[{store:'Etsy (Materia3D)',url:'https://www.etsy.com/listing/1623213662/small-table-lamp-yuzen-straight-with',info:'Ships US'},{store:'Etsy (similar)',url:'https://www.etsy.com/search?q=3d+printed+table+lamp+dimmer+warm+glow',info:'Similar 3D-printed'},{store:'Amazon (similar)',url:'https://www.amazon.com/s?k=small+ambient+table+lamp+usb+dimmer+modern',info:'Compare options'}]},
-  {sec:'accent',id:'A18',name:'MCM Orange PU Leather Table Lamp',brand:'Amazon',height:'18.11"H',note:'Mid-century modern, orange with beige fabric shade, PU leather body',img:'https://m.media-amazon.com/images/I/71jcp2QJfwL._AC_SL1500_.jpg',links:[{store:'Amazon',url:'https://www.amazon.com/Century-Leather-Nightstand-Lighting-Bookshelf/dp/B0GTLQVFWN',info:'Prime eligible'},{store:'Walmart',url:'https://www.walmart.com/search?q=mid+century+orange+leather+table+lamp+18+inch',info:'Compare price'},{store:'Wayfair (similar)',url:'https://www.wayfair.com/lighting/sb2/orange-table-lamps-c416503-a76341~279432.html',info:'Browse orange lamps'}]},
-  {sec:'accent',id:'A19',name:'WBM Himalayan Glow Salt Lamp',brand:'WBM',height:'~9"H',note:'Natural pink/amber salt crystal, warm amber glow, touch dimmer, USB',img:'https://images.urbndata.com/is/image/UrbanOutfitters/76047497_067_b?$xlarge$&fit=constrain&qlt=80&wid=640',links:[{store:'Amazon',url:'https://www.amazon.com/Himalayan-Glow-1002-Pink-Crystal/dp/B001892AX2',info:'Prime eligible'},{store:'Target',url:'https://www.target.com/s?searchTerm=himalayan+salt+lamp+wbm',info:'5% RedCard + 20% vet'},{store:'Walmart',url:'https://www.walmart.com/search?q=WBM+Himalayan+Glow+salt+lamp',info:'Compare price'}]},
-  {sec:'accent',id:'A20',name:'Hodevimall Bamboo Boho Rattan Lamp',brand:'Hodevimall',height:'~14"H',note:'Natural bamboo, warm indirect glow — accent scale',img:'https://m.media-amazon.com/images/I/71b1LMiX11L._AC_SL1500_.jpg',links:[{store:'Amazon',url:'https://www.amazon.com/dp/B0FHHBLHX8',info:'Prime eligible'},{store:'Wayfair (similar)',url:'https://www.wayfair.com/lighting/sb2/rattan-table-lamps-c416503-a113497~445641.html',info:'Browse rattan lamps'},{store:'Target (similar)',url:'https://www.target.com/s?searchTerm=boho+rattan+bamboo+table+lamp',info:'5% RedCard + 20% vet'}]},
-  {sec:'accent',id:'A21',name:'Safavieh Deria Wall Sconce Set of 2',brand:'Safavieh',height:'8"H',note:'Oatmeal/gold wall sconce set — plug-in accent lighting',img:'https://target.scene7.com/is/image/Target/GUEST_fd8937e1-eca5-4ad5-aa00-4a472190638e?wid=1200&hei=1200&qlt=80',links:[{store:'Target',url:'https://www.target.com/p/deria-8-wall-sconce-set-of-2-scn4156-oatmeal-gold-safavieh/-/A-1010177849#lnk=sametab',info:'5% RedCard + 20% vet'},{store:'Amazon (Safavieh)',url:'https://www.amazon.com/s?k=Safavieh+Deria+wall+sconce+oatmeal+gold',info:'Compare price'},{store:'Wayfair (similar)',url:'https://www.wayfair.com/lighting/sb2/plug-in-wall-sconces-c413782-a113497~445641.html',info:'Browse plug-in sconces'}]},
-  {sec:'accent',id:'A22',name:'Amber Glass Table Lamp (Threshold/Target)',brand:'Threshold',height:'Unknown',note:'Amber glass — Target Threshold exclusive',img:'https://target.scene7.com/is/image/Target/GUEST_6f8ac245-ef17-43e1-acec-cb7402ba2a86?wid=1200&hei=1200&qlt=80',links:[{store:'Target',url:'https://www.target.com/p/amber-glass-table-lamp-brown-threshold-8482/-/A-90043269#lnk=sametab',info:'5% RedCard + 20% vet'},{store:'Amazon (similar)',url:'https://www.amazon.com/s?k=amber+glass+table+lamp+accent+small',info:'Similar amber glass'},{store:'CB2 (similar)',url:'https://www.cb2.com/arie-amber-glass-table-lamp/s447078',info:'Arie amber — compare'}]}
-];
-
 // ─── STATE ────────────────────────────────────────────────────────────────────
-var scores = {};        // { lampId: { Brad: N, Wes: N } }
-var guestScores = {};   // { lampId: [ { name: str, score: N }, ... ] }
-var extraImages = {};   // { lampId: [src, ...] }
+var LAMPS = [];
+var scores = {};
+var guestScores = {};
+var extraImages = {};
 var currentIdx = 0;
 var showingSummary = false;
+var guestPendingScore = {}; // lampId -> pending star value for guest
+
 function total() { return LAMPS.length; }
 
-// ─── SUPABASE LOAD/SAVE ───────────────────────────────────────────────────────
-function loadScores() {
+// ─── LOAD ─────────────────────────────────────────────────────────────────────
+function init() {
   setStatus('Loading...', 'loading');
-  supaFetch('lamp_scores?select=lamp_id,brad_score,wes_score,guest_scores').then(function(rows) {
-    if (!Array.isArray(rows)) { setStatus('', ''); buildAll(); return; }
-    rows.forEach(function(row) {
+  Promise.all([
+    supaFetch('lamps?order=sort_order'),
+    supaFetch('lamp_scores?select=lamp_id,brad_score,wes_score,guest_scores')
+  ]).then(function(results) {
+    var lampRows   = results[0];
+    var scoreRows  = results[1];
+
+    // Map lamp rows to our LAMPS format
+    LAMPS = (Array.isArray(lampRows) ? lampRows : []).map(function(r) {
+      var links = [];
+      if (r.link1_store && r.link1_url) links.push({store:r.link1_store, url:r.link1_url, info:r.link1_info||''});
+      if (r.link2_store && r.link2_url) links.push({store:r.link2_store, url:r.link2_url, info:r.link2_info||''});
+      if (r.link3_store && r.link3_url) links.push({store:r.link3_store, url:r.link3_url, info:r.link3_info||''});
+      return {
+        sec: r.sec, id: r.id, name: r.name, brand: r.brand||'',
+        height: r.height||'', note: r.note||'', imgNote: r.img_note||'',
+        img: r.img||'', links: links
+      };
+    });
+
+    // Map score rows
+    (Array.isArray(scoreRows) ? scoreRows : []).forEach(function(row) {
       if (!row.lamp_id) return;
       if (row.brad_score || row.wes_score) {
-        scores[row.lamp_id] = { Brad: row.brad_score || 0, Wes: row.wes_score || 0 };
+        scores[row.lamp_id] = { Brad: row.brad_score||0, Wes: row.wes_score||0 };
       }
       if (row.guest_scores) {
         try { guestScores[row.lamp_id] = JSON.parse(row.guest_scores); } catch(e) {}
       }
     });
+
     buildAll();
-    // Restore star UI after DOM is built
+
+    // Restore star UI
     Object.keys(scores).forEach(function(id) {
       var s = scores[id];
-      if (s.Brad) { renderStars(id, 'Brad', s.Brad); setScoreDisp(id, 'Brad', s.Brad); }
-      if (s.Wes)  { renderStars(id, 'Wes',  s.Wes);  setScoreDisp(id, 'Wes',  s.Wes); }
+      if (s.Brad) { renderStars(id,'Brad',s.Brad); setScoreDisp(id,'Brad',s.Brad); }
+      if (s.Wes)  { renderStars(id,'Wes', s.Wes);  setScoreDisp(id,'Wes', s.Wes); }
       if (s.Brad && s.Wes) {
         showResult(id);
-        var card = document.getElementById('card-' + id);
-        if (card) card.classList.add('done');
+        var card = document.getElementById('card-'+id); if (card) card.classList.add('done');
       }
     });
-    updateProgress();
-    updateBottomNav();
+
+    updateProgress(); updateBottomNav();
     setStatus('', '');
   }).catch(function(e) {
-    console.error('Load error', e);
-    buildAll();
-    setStatus('', '');
+    console.error('Init error', e);
+    document.getElementById('view-lamps').innerHTML = '<div class="loading-state" style="color:rgba(220,80,80,0.8)">Failed to load lamps. Check Supabase connection.</div>';
+    setStatus('Load failed', 'error');
   });
 }
 
@@ -404,43 +352,44 @@ function saveScore(id) {
   var gs = guestScores[id] || [];
   setStatus('Saving...', 'saving');
   supaFetch('lamp_scores', 'POST', {
-    lamp_id: id,
-    brad_score: s.Brad || null,
-    wes_score: s.Wes || null,
-    guest_scores: JSON.stringify(gs),
-    updated_at: new Date().toISOString()
-  }).then(function() {
-    setStatus('Saved', 'saved');
-  }).catch(function() {
-    setStatus('Save failed', 'error');
+    lamp_id: id, brad_score: s.Brad||null, wes_score: s.Wes||null,
+    guest_scores: JSON.stringify(gs), updated_at: new Date().toISOString()
+  }).then(function() { setStatus('Saved', 'saved'); })
+    .catch(function() { setStatus('Save failed', 'error'); });
+}
+
+// Save new lamp to Supabase
+function saveLampToDb(lamp, sortOrder) {
+  return supaFetch('lamps', 'POST', {
+    id: lamp.id, sec: lamp.sec, name: lamp.name, brand: lamp.brand||null,
+    height: lamp.height||null, note: lamp.note||null, img_note: lamp.imgNote||null,
+    img: lamp.img||null,
+    link1_store: lamp.links[0]?lamp.links[0].store:null, link1_url: lamp.links[0]?lamp.links[0].url:null, link1_info: lamp.links[0]?lamp.links[0].info:null,
+    link2_store: lamp.links[1]?lamp.links[1].store:null, link2_url: lamp.links[1]?lamp.links[1].url:null, link2_info: lamp.links[1]?lamp.links[1].info:null,
+    link3_store: lamp.links[2]?lamp.links[2].store:null, link3_url: lamp.links[2]?lamp.links[2].url:null, link3_info: lamp.links[2]?lamp.links[2].info:null,
+    sort_order: sortOrder
   });
 }
 
 // ─── BUILD DOM ────────────────────────────────────────────────────────────────
 function buildAll() {
-  var view = document.getElementById('view-lamps');
-  if (!view) return;
+  var view = document.getElementById('view-lamps'); if (!view) return;
   view.innerHTML = '';
   var prevSec = null;
   LAMPS.forEach(function(lamp, i) {
-    if (lamp.sec !== prevSec) {
-      prevSec = lamp.sec;
-      view.appendChild(buildSecDiv(lamp.sec));
-    }
+    if (lamp.sec !== prevSec) { prevSec = lamp.sec; view.appendChild(buildSecDiv(lamp.sec)); }
     view.appendChild(buildCard(lamp, i));
   });
 }
 
 function buildSecDiv(sec) {
-  var d = document.createElement('div');
-  d.className = 'sec-div'; d.id = 'sec-' + sec;
-  var cnt = LAMPS.filter(function(l){ return l.sec === sec; }).length;
-  d.innerHTML = '<h2>' + (sec==='bedside'?'Bedside Lamps':'Accent Lamps') + '</h2>' +
-    '<div class="sec-line"><span class="ln"></span><span class="sc" id="cnt-'+sec+'">' + cnt + ' lamps</span><span class="ln"></span></div>' +
-    '<br><button class="add-lamp-btn" onclick="toggleAddForm(\'' + sec + '\')">+ Add Lamp</button>';
-  var form = document.createElement('div');
-  form.className = 'add-lamp-form'; form.id = 'add-form-' + sec;
-  form.innerHTML = '<h3>Add a New ' + (sec==='bedside'?'Bedside':'Accent') + ' Lamp</h3>' +
+  var d = document.createElement('div'); d.className = 'sec-div'; d.id = 'sec-'+sec;
+  var cnt = LAMPS.filter(function(l){ return l.sec===sec; }).length;
+  d.innerHTML = '<h2>'+(sec==='bedside'?'Bedside Lamps':'Accent Lamps')+'</h2>' +
+    '<div class="sec-line"><span class="ln"></span><span class="sc" id="cnt-'+sec+'">'+cnt+' lamps</span><span class="ln"></span></div>' +
+    '<br><button class="add-lamp-btn" onclick="toggleAddForm(\''+sec+'\')">+ Add Lamp</button>';
+  var form = document.createElement('div'); form.className='add-lamp-form'; form.id='add-form-'+sec;
+  form.innerHTML = '<h3>Add a New '+(sec==='bedside'?'Bedside':'Accent')+' Lamp</h3>' +
     '<div class="form-grid">' +
       '<div><label>Lamp Name *</label><input type="text" id="af-name-'+sec+'" placeholder="e.g. West Elm Ribbed Glass"></div>' +
       '<div><label>Height</label><input type="text" id="af-ht-'+sec+'" placeholder="e.g. 22&quot;H"></div>' +
@@ -453,437 +402,399 @@ function buildSecDiv(sec) {
       '<div class="link-row"><span class="lbl">Center</span><input id="af-cs-'+sec+'" placeholder="Store"><input id="af-cu-'+sec+'" placeholder="URL"><input id="af-ci-'+sec+'" placeholder="Info"></div>' +
       '<div class="link-row"><span class="lbl">Right</span><input id="af-rs-'+sec+'" placeholder="Store"><input id="af-ru-'+sec+'" placeholder="URL"><input id="af-ri-'+sec+'" placeholder="Info"></div>' +
     '</div>' +
-    '<div class="form-btns"><button class="form-submit" onclick="submitAddForm(\'' + sec + '\')">Add Lamp</button><button class="form-cancel" onclick="toggleAddForm(\'' + sec + '\')">Cancel</button></div>';
-  d.appendChild(form);
-  return d;
+    '<div class="form-btns"><button class="form-submit" onclick="submitAddForm(\''+sec+'\')">Add Lamp</button><button class="form-cancel" onclick="toggleAddForm(\''+sec+'\')">Cancel</button></div>';
+  d.appendChild(form); return d;
 }
 
 function toggleAddForm(sec) {
-  var f = document.getElementById('add-form-' + sec);
-  if (f) f.style.display = f.style.display === 'block' ? 'none' : 'block';
+  var f = document.getElementById('add-form-'+sec); if (f) f.style.display = f.style.display==='block'?'none':'block';
 }
 
 function submitAddForm(sec) {
-  var g = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
-  var name = g('af-name-' + sec); if (!name) { alert('Please enter a lamp name.'); return; }
-  var nums = LAMPS.filter(function(l){ return l.sec===sec; }).map(function(l){ return parseInt(l.id.replace(/\D/g,''))||0; });
-  var newId = (sec==='bedside'?'B':'A') + (Math.max.apply(null, nums.concat([0])) + 1);
-  var links = [];
+  var g = function(id){ var el=document.getElementById(id); return el?el.value.trim():''; };
+  var name = g('af-name-'+sec); if (!name) { alert('Please enter a lamp name.'); return; }
+  var nums = LAMPS.filter(function(l){return l.sec===sec;}).map(function(l){return parseInt(l.id.replace(/\D/g,''))||0;});
+  var newId = (sec==='bedside'?'B':'A')+(Math.max.apply(null,nums.concat([0]))+1);
+  var links=[];
   [['ls','lu','li'],['cs','cu','ci'],['rs','ru','ri']].forEach(function(k){
     var s=g('af-'+k[0]+'-'+sec),u=g('af-'+k[1]+'-'+sec),i=g('af-'+k[2]+'-'+sec);
     if(s&&u) links.push({store:s,url:u,info:i});
   });
-  var lamp = {sec:sec,id:newId,name:name,brand:g('af-brand-'+sec),height:g('af-ht-'+sec),note:g('af-note-'+sec),img:g('af-img-'+sec),links:links};
+  var lamp={sec:sec,id:newId,name:name,brand:g('af-brand-'+sec),height:g('af-ht-'+sec),note:g('af-note-'+sec),imgNote:'',img:g('af-img-'+sec),links:links};
+  var sortOrder = LAMPS.length + 1;
   LAMPS.push(lamp);
-  var view = document.getElementById('view-lamps');
-  var lastCard = null;
-  LAMPS.forEach(function(l){ if(l.sec===sec&&l.id!==newId){var el=document.getElementById('card-'+l.id);if(el)lastCard=el;}});
-  var nc = buildCard(lamp, LAMPS.length-1);
-  if (lastCard && lastCard.nextSibling) view.insertBefore(nc, lastCard.nextSibling); else view.appendChild(nc);
-  var cntEl = document.getElementById('cnt-'+sec); if(cntEl) cntEl.textContent=LAMPS.filter(function(l){return l.sec===sec;}).length+' lamps';
+  setStatus('Saving new lamp...','saving');
+  saveLampToDb(lamp, sortOrder).then(function(){ setStatus('Lamp saved','saved'); }).catch(function(){ setStatus('Save failed','error'); });
+  var view=document.getElementById('view-lamps');
+  var lastCard=null;
+  LAMPS.forEach(function(l){if(l.sec===sec&&l.id!==newId){var el=document.getElementById('card-'+l.id);if(el)lastCard=el;}});
+  var nc=buildCard(lamp,LAMPS.length-1);
+  if(lastCard&&lastCard.nextSibling) view.insertBefore(nc,lastCard.nextSibling); else view.appendChild(nc);
+  var cntEl=document.getElementById('cnt-'+sec); if(cntEl) cntEl.textContent=LAMPS.filter(function(l){return l.sec===sec;}).length+' lamps';
   toggleAddForm(sec); updateProgress(); updateBottomNav();
   nc.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function buildCard(lamp) {
-  var card = document.createElement('div');
-  card.className = 'lamp-card'; card.id = 'card-' + lamp.id;
-
-  // Title
-  var title = document.createElement('div'); title.className = 'lamp-title';
-  title.innerHTML = '<span class="lamp-num">'+esc(lamp.id)+'</span><span class="lamp-name">'+esc(lamp.name)+'</span>'+(lamp.height?'<span class="lamp-ht">'+esc(lamp.height)+'</span>':'');
+  var card=document.createElement('div'); card.className='lamp-card'; card.id='card-'+lamp.id;
+  var title=document.createElement('div'); title.className='lamp-title';
+  title.innerHTML='<span class="lamp-num">'+esc(lamp.id)+'</span><span class="lamp-name">'+esc(lamp.name)+'</span>'+(lamp.height?'<span class="lamp-ht">'+esc(lamp.height)+'</span>':'');
   card.appendChild(title);
-  if (lamp.note) { var nn=document.createElement('div');nn.className='lamp-note';nn.textContent=lamp.note;card.appendChild(nn); }
+  if(lamp.note){var nn=document.createElement('div');nn.className='lamp-note';nn.textContent=lamp.note;card.appendChild(nn);}
+  var body=document.createElement('div'); body.className='card-body';
 
-  var body = document.createElement('div'); body.className = 'card-body';
-
-  // ── LEFT: image + links ──
-  var left = document.createElement('div'); left.className = 'panel-left';
-  var gallery = document.createElement('div'); gallery.className = 'gallery';
-
-  var main = document.createElement('div'); main.className = 'gal-main'; main.id = 'gm-' + lamp.id;
-  if (lamp.img) {
-    var pi = document.createElement('img'); pi.src = lamp.img; pi.alt = lamp.name;
-    pi.onerror = function(){ main.innerHTML='<div class="gal-ph"><span class="ico">\u26A0</span><span>Image failed — add URL below</span></div>'; };
+  // LEFT: image + links
+  var left=document.createElement('div'); left.className='panel-left';
+  var gallery=document.createElement('div'); gallery.className='gallery';
+  var main=document.createElement('div'); main.className='gal-main'; main.id='gm-'+lamp.id;
+  if(lamp.img){
+    var pi=document.createElement('img'); pi.src=lamp.img; pi.alt=lamp.name;
+    pi.onerror=function(){main.innerHTML='<div class="gal-ph"><span class="ico">\u26A0</span><span>Image failed</span></div>';};
     main.appendChild(pi);
-    if (!extraImages[lamp.id]) extraImages[lamp.id] = [lamp.img];
+    if(!extraImages[lamp.id]) extraImages[lamp.id]=[lamp.img];
   } else {
-    main.innerHTML = '<div class="gal-ph"><span class="ico">\uD83D\uDDBC\uFE0F</span><span>Upload images below</span></div>';
-    if (!extraImages[lamp.id]) extraImages[lamp.id] = [];
+    main.innerHTML='<div class="gal-ph"><span class="ico">\uD83D\uDDBC\uFE0F</span><span>Upload images below</span></div>';
+    if(!extraImages[lamp.id]) extraImages[lamp.id]=[];
   }
   gallery.appendChild(main);
-  if (lamp.imgNote) { var in2=document.createElement('div');in2.className='img-note';in2.textContent='\u26A0 '+lamp.imgNote;gallery.appendChild(in2); }
+  if(lamp.imgNote){var in2=document.createElement('div');in2.className='img-note';in2.textContent='\u26A0 '+lamp.imgNote;gallery.appendChild(in2);}
 
-  // Collapsible photo panel
-  var togBtn = document.createElement('button'); togBtn.className = 'photo-toggle'; togBtn.type = 'button';
-  togBtn.innerHTML = '<span class="caret">&#9658;</span> Photos & Upload';
-  var photoPanel = document.createElement('div'); photoPanel.className = 'photo-panel'; photoPanel.id = 'pp-' + lamp.id;
-  togBtn.addEventListener('click', function() { togBtn.classList.toggle('open'); photoPanel.classList.toggle('open'); });
+  var togBtn=document.createElement('button'); togBtn.className='photo-toggle'; togBtn.type='button';
+  togBtn.innerHTML='<span class="caret">&#9658;</span> Photos & Upload';
+  var photoPanel=document.createElement('div'); photoPanel.className='photo-panel'; photoPanel.id='pp-'+lamp.id;
+  togBtn.addEventListener('click',function(){togBtn.classList.toggle('open');photoPanel.classList.toggle('open');});
   gallery.appendChild(togBtn);
 
-  // Thumb strip (inside panel)
-  var strip = document.createElement('div'); strip.className = 'thumb-strip'; strip.id = 'strip-' + lamp.id;
-  if (lamp.img) {
-    var th0 = document.createElement('div'); th0.className = 'thumb active'; th0.setAttribute('data-ti', 0);
-    var ti0 = document.createElement('img'); ti0.src = lamp.img; th0.appendChild(ti0);
-    th0.addEventListener('click', makeThumbClick(lamp.id, lamp.img, 0));
-    strip.appendChild(th0);
+  var strip=document.createElement('div'); strip.className='thumb-strip'; strip.id='strip-'+lamp.id;
+  if(lamp.img){
+    var th0=document.createElement('div'); th0.className='thumb active'; th0.setAttribute('data-ti',0);
+    var ti0=document.createElement('img'); ti0.src=lamp.img; th0.appendChild(ti0);
+    th0.addEventListener('click',makeThumbClick(lamp.id,lamp.img,0)); strip.appendChild(th0);
   }
   photoPanel.appendChild(strip);
 
-  // Upload controls (inside panel)
-  var ctrl = document.createElement('div'); ctrl.className = 'img-controls';
-  var fileId = 'file-' + lamp.id;
-  ctrl.innerHTML = '<label class="upload-btn" for="'+fileId+'">\u2191 Upload</label><input type="file" id="'+fileId+'" accept="image/*" multiple><input type="text" id="url-'+lamp.id+'" placeholder="Paste image URL\u2026"><button onclick="applyUrl(\''+lamp.id+'\')">Add</button>';
+  var ctrl=document.createElement('div'); ctrl.className='img-controls';
+  var fileId='file-'+lamp.id;
+  ctrl.innerHTML='<label class="upload-btn" for="'+fileId+'">\u2191 Upload</label><input type="file" id="'+fileId+'" accept="image/*" multiple><input type="text" id="url-'+lamp.id+'" placeholder="Paste image URL\u2026"><button onclick="applyUrl(\''+lamp.id+'\')">Add</button>';
   photoPanel.appendChild(ctrl);
   gallery.appendChild(photoPanel);
-
-  setTimeout(function(){ var fi=document.getElementById(fileId); if(fi) fi.addEventListener('change',function(e){ handleUpload(lamp.id,e.target.files); }); }, 0);
+  setTimeout(function(){var fi=document.getElementById(fileId);if(fi)fi.addEventListener('change',function(e){handleUpload(lamp.id,e.target.files);});},0);
 
   left.appendChild(gallery);
   left.appendChild(buildLinksBar(lamp.links));
   body.appendChild(left);
 
-  // ── RIGHT: rating ──
-  var right = document.createElement('div'); right.className = 'panel-right';
-  var ra = document.createElement('div'); ra.className = 'rating-area'; ra.id = 'ra-' + lamp.id;
+  // RIGHT: ratings
+  var right=document.createElement('div'); right.className='panel-right';
+  var ra=document.createElement('div'); ra.className='rating-area'; ra.id='ra-'+lamp.id;
 
-  ['Brad','Wes'].forEach(function(name, ni) {
-    if (ni > 0) { var dv=document.createElement('div');dv.className='rater-divider';ra.appendChild(dv); }
-    var block = document.createElement('div'); block.className = 'rater-block';
-    block.innerHTML = '<div class="rater-name">'+name+'</div>';
-    var starsDiv = document.createElement('div'); starsDiv.className = 'stars'; starsDiv.id = 'stars-'+lamp.id+'-'+name;
-    for (var s=1;s<=5;s++) starsDiv.appendChild(buildStarWrap(lamp.id, name, s));
+  ['Brad','Wes'].forEach(function(name,ni){
+    if(ni>0){var dv=document.createElement('div');dv.className='rater-divider';ra.appendChild(dv);}
+    var block=document.createElement('div'); block.className='rater-block';
+    block.innerHTML='<div class="rater-name">'+name+'</div>';
+    var starsDiv=document.createElement('div'); starsDiv.className='stars'; starsDiv.id='stars-'+lamp.id+'-'+name;
+    for(var s=1;s<=5;s++) starsDiv.appendChild(buildStarWrap(lamp.id,name,s));
     block.appendChild(starsDiv);
-    var disp = document.createElement('div'); disp.className = 'score-disp'; disp.id = 'sd-'+lamp.id+'-'+name;
-    block.appendChild(disp);
-    // Reset button
-    var resetBtn = document.createElement('button'); resetBtn.className = 'rating-ctrl-btn'; resetBtn.textContent = 'Reset';
-    resetBtn.addEventListener('click', makeReset(lamp.id, name));
-    block.appendChild(resetBtn);
+    var disp=document.createElement('div'); disp.className='score-disp'; disp.id='sd-'+lamp.id+'-'+name; block.appendChild(disp);
+    var resetBtn=document.createElement('button'); resetBtn.className='rating-ctrl-btn'; resetBtn.textContent='Reset';
+    resetBtn.addEventListener('click',makeReset(lamp.id,name)); block.appendChild(resetBtn);
     ra.appendChild(block);
   });
 
-  var rdiv2 = document.createElement('div'); rdiv2.className = 'rater-divider'; ra.appendChild(rdiv2);
+  var rdiv=document.createElement('div'); rdiv.className='rater-divider'; ra.appendChild(rdiv);
+  var rb=document.createElement('div'); rb.className='result-block'; rb.id='rb-'+lamp.id; ra.appendChild(rb);
 
-  // Result block
-  var rb = document.createElement('div'); rb.className = 'result-block'; rb.id = 'rb-' + lamp.id; ra.appendChild(rb);
+  // Guest rating with stars
+  var guestSec=document.createElement('div'); guestSec.className='guest-section';
+  guestSec.innerHTML='<div class="guest-label">Guest Rating</div>' +
+    '<div class="guest-name-row"><input type="text" id="gname-'+lamp.id+'" placeholder="Guest name" maxlength="20"></div>' +
+    '<div class="guest-stars-row" id="gstars-'+lamp.id+'"></div>' +
+    '<div class="score-disp" id="gsd-'+lamp.id+'" style="text-align:center;margin-bottom:5px;"></div>' +
+    '<button class="guest-submit" onclick="submitGuest(\''+lamp.id+'\')">Add Guest Rating</button>';
+  ra.appendChild(guestSec);
 
-  // Guest rating section
-  var guestDiv = document.createElement('div'); guestDiv.className = 'guest-form'; guestDiv.id = 'gf-' + lamp.id;
-  guestDiv.innerHTML = '<div class="guest-label">Guest Rating</div>' +
-    '<div class="guest-form-inner">' +
-      '<input type="text" id="gname-'+lamp.id+'" placeholder="Name" maxlength="20">' +
-      '<input type="number" id="gscore-'+lamp.id+'" placeholder="Score" min="0.5" max="5" step="0.5">' +
-      '<button class="guest-submit" onclick="submitGuest(\''+lamp.id+'\')">Add</button>' +
-    '</div>';
-  ra.appendChild(guestDiv);
+  // Build guest stars (5 full stars, no half for simplicity)
+  setTimeout(function(){
+    var gStarsDiv=document.getElementById('gstars-'+lamp.id);
+    if(!gStarsDiv)return;
+    for(var s=1;s<=5;s++){
+      gStarsDiv.appendChild(buildGuestStarWrap(lamp.id,s));
+    }
+  },0);
 
-  right.appendChild(ra);
-  body.appendChild(right);
-  card.appendChild(body);
+  right.appendChild(ra); body.appendChild(right); card.appendChild(body);
   return card;
 }
 
-function buildLinksBar(links) {
-  var bar = document.createElement('div'); bar.className = 'links-bar';
-  ['left','center','right'].forEach(function(pos, i) {
-    var slot = document.createElement('div'); var lnk = links && links[i];
-    if (lnk) {
-      slot.className = 'link-slot ' + pos;
-      slot.innerHTML = '<a href="'+lnk.url+'" target="_blank" rel="noopener">'+esc(lnk.store)+' \u2197</a>'+(lnk.info?'<span class="link-info">'+esc(lnk.info)+'</span>':'');
-    } else { slot.className = 'link-empty'; }
+function buildLinksBar(links){
+  var bar=document.createElement('div'); bar.className='links-bar';
+  ['left','center','right'].forEach(function(pos,i){
+    var slot=document.createElement('div'); var lnk=links&&links[i];
+    if(lnk){
+      slot.className='link-slot '+pos;
+      slot.innerHTML='<a href="'+lnk.url+'" target="_blank" rel="noopener">'+esc(lnk.store)+' \u2197</a>'+(lnk.info?'<span class="link-info">'+esc(lnk.info)+'</span>':'');
+    } else { slot.className='link-empty'; }
     bar.appendChild(slot);
-  });
-  return bar;
+  }); return bar;
 }
 
-// ─── HALF-STAR SVG ────────────────────────────────────────────────────────────
-function buildStarWrap(id, name, starNum) {
-  var wrap = document.createElement('div');
-  wrap.className = 'star-wrap';
-  // Each star has two halves. Points of a 5-pointed star in 24x24 viewBox:
-  var pts = '12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26';
-  var uid = id + '-' + name + '-' + starNum;
-  wrap.innerHTML =
-    '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">' +
-      '<defs>' +
-        '<clipPath id="cl-'+uid+'"><rect x="0" y="0" width="12" height="24"/></clipPath>' +
-        '<clipPath id="cr-'+uid+'"><rect x="12" y="0" width="12" height="24"/></clipPath>' +
-      '</defs>' +
-      '<polygon class="star-poly" id="sbg-'+uid+'" fill="var(--star-off)" points="'+pts+'"/>' +
-      '<polygon class="star-poly" id="sl-'+uid+'" fill="var(--star-off)" clip-path="url(#cl-'+uid+')" points="'+pts+'"/>' +
-      '<polygon class="star-poly" id="sr-'+uid+'" fill="var(--star-off)" clip-path="url(#cr-'+uid+')" points="'+pts+'"/>' +
-    '</svg>' +
-    '<div class="star-left-hit"></div><div class="star-right-hit"></div>';
+// ─── HALF-STAR SVG (Brad/Wes) ─────────────────────────────────────────────────
+var PTS = '12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26';
 
-  var lh = wrap.querySelector('.star-left-hit');
-  var rh = wrap.querySelector('.star-right-hit');
-  var hv = starNum - 0.5; // left = half star
-  var fv = starNum;       // right = full star
-
-  lh.addEventListener('mouseenter', makeHovIn(id, name, hv));
-  lh.addEventListener('mouseleave', makeHovOut(id, name));
-  lh.addEventListener('click',      makeClick(id, name, hv));
-  rh.addEventListener('mouseenter', makeHovIn(id, name, fv));
-  rh.addEventListener('mouseleave', makeHovOut(id, name));
-  rh.addEventListener('click',      makeClick(id, name, fv));
+function buildStarWrap(id,name,starNum){
+  var wrap=document.createElement('div'); wrap.className='star-wrap';
+  var uid=id+'-'+name+'-'+starNum;
+  wrap.innerHTML='<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">'+
+    '<defs><clipPath id="cl-'+uid+'"><rect x="0" y="0" width="12" height="24"/></clipPath>'+
+    '<clipPath id="cr-'+uid+'"><rect x="12" y="0" width="12" height="24"/></clipPath></defs>'+
+    '<polygon class="star-poly" id="sbg-'+uid+'" fill="var(--star-off)" points="'+PTS+'"/>'+
+    '<polygon class="star-poly" id="sl-'+uid+'" fill="var(--star-off)" clip-path="url(#cl-'+uid+')" points="'+PTS+'"/>'+
+    '<polygon class="star-poly" id="sr-'+uid+'" fill="var(--star-off)" clip-path="url(#cr-'+uid+')" points="'+PTS+'"/>'+
+    '</svg><div class="star-left-hit"></div><div class="star-right-hit"></div>';
+  var lh=wrap.querySelector('.star-left-hit'), rh=wrap.querySelector('.star-right-hit');
+  var hv=starNum-0.5, fv=starNum;
+  lh.addEventListener('mouseenter',makeHovIn(id,name,hv)); lh.addEventListener('mouseleave',makeHovOut(id,name)); lh.addEventListener('click',makeClick(id,name,hv));
+  rh.addEventListener('mouseenter',makeHovIn(id,name,fv)); rh.addEventListener('mouseleave',makeHovOut(id,name)); rh.addEventListener('click',makeClick(id,name,fv));
   return wrap;
 }
 
-function renderStars(id, name, val) {
-  // val is 0-5, 0.5 increments
-  val = val || 0;
-  for (var s = 1; s <= 5; s++) {
-    var uid = id + '-' + name + '-' + s;
-    var lEl = document.getElementById('sl-' + uid);
-    var rEl = document.getElementById('sr-' + uid);
-    if (!lEl || !rEl) continue;
-    var filled = val >= s;
-    var half   = !filled && val >= (s - 0.5);
-    lEl.style.fill = (filled || half) ? 'var(--star-on)' : 'var(--star-off)';
-    rEl.style.fill = filled ? 'var(--star-on)' : 'var(--star-off)';
+// Guest stars (half-star too, same system)
+function buildGuestStarWrap(id, starNum){
+  var wrap=document.createElement('div'); wrap.className='star-wrap';
+  var uid='g-'+id+'-'+starNum;
+  wrap.innerHTML='<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">'+
+    '<defs><clipPath id="cl-'+uid+'"><rect x="0" y="0" width="12" height="24"/></clipPath>'+
+    '<clipPath id="cr-'+uid+'"><rect x="12" y="0" width="12" height="24"/></clipPath></defs>'+
+    '<polygon class="star-poly" id="sbg-'+uid+'" fill="var(--star-off)" points="'+PTS+'"/>'+
+    '<polygon class="star-poly" id="sl-'+uid+'" fill="var(--star-off)" clip-path="url(#cl-'+uid+')" points="'+PTS+'"/>'+
+    '<polygon class="star-poly" id="sr-'+uid+'" fill="var(--star-off)" clip-path="url(#cr-'+uid+')" points="'+PTS+'"/>'+
+    '</svg><div class="star-left-hit"></div><div class="star-right-hit"></div>';
+  var lh=wrap.querySelector('.star-left-hit'), rh=wrap.querySelector('.star-right-hit');
+  var hv=starNum-0.5, fv=starNum;
+  lh.addEventListener('mouseenter',function(){renderGuestStars(id,hv);});
+  lh.addEventListener('mouseleave',function(){renderGuestStars(id,guestPendingScore[id]||0);});
+  lh.addEventListener('click',function(){guestPendingScore[id]=hv;renderGuestStars(id,hv);setGuestDisp(id,hv);});
+  rh.addEventListener('mouseenter',function(){renderGuestStars(id,fv);});
+  rh.addEventListener('mouseleave',function(){renderGuestStars(id,guestPendingScore[id]||0);});
+  rh.addEventListener('click',function(){guestPendingScore[id]=fv;renderGuestStars(id,fv);setGuestDisp(id,fv);});
+  return wrap;
+}
+
+function renderGuestStars(id,val){
+  val=val||0;
+  for(var s=1;s<=5;s++){
+    var uid='g-'+id+'-'+s;
+    var lEl=document.getElementById('sl-'+uid), rEl=document.getElementById('sr-'+uid);
+    if(!lEl||!rEl) continue;
+    var filled=val>=s, half=!filled&&val>=(s-0.5);
+    lEl.style.fill=(filled||half)?'var(--star-on)':'var(--star-off)';
+    rEl.style.fill=filled?'var(--star-on)':'var(--star-off)';
   }
 }
 
-function setScoreDisp(id, name, val) {
-  var el = document.getElementById('sd-' + id + '-' + name);
-  if (!el) return;
-  if (!val) { el.textContent = ''; return; }
-  var full = Math.floor(val); var isHalf = (val % 1 !== 0);
-  el.textContent = '\u2605'.repeat(full) + (isHalf ? '\u00BD' : '') + ' ' + val + '/5';
+function setGuestDisp(id,val){
+  var el=document.getElementById('gsd-'+id); if(!el) return;
+  if(!val){el.textContent='';return;}
+  var full=Math.floor(val), isHalf=(val%1!==0);
+  el.textContent='\u2605'.repeat(full)+(isHalf?'\u00BD':'')+' '+val+'/5';
 }
 
-function makeHovIn(id, name, val) {
-  return function() {
-    if (scores[id] && scores[id][name]) return;
-    renderStars(id, name, val);
-  };
+function renderStars(id,name,val){
+  val=val||0;
+  for(var s=1;s<=5;s++){
+    var uid=id+'-'+name+'-'+s;
+    var lEl=document.getElementById('sl-'+uid), rEl=document.getElementById('sr-'+uid);
+    if(!lEl||!rEl) continue;
+    var filled=val>=s, half=!filled&&val>=(s-0.5);
+    lEl.style.fill=(filled||half)?'var(--star-on)':'var(--star-off)';
+    rEl.style.fill=filled?'var(--star-on)':'var(--star-off)';
+  }
 }
-function makeHovOut(id, name) {
-  return function() {
-    var cur = (scores[id] && scores[id][name]) ? scores[id][name] : 0;
-    renderStars(id, name, cur);
-  };
+
+function setScoreDisp(id,name,val){
+  var el=document.getElementById('sd-'+id+'-'+name); if(!el) return;
+  if(!val){el.textContent='';return;}
+  var full=Math.floor(val), isHalf=(val%1!==0);
+  el.textContent='\u2605'.repeat(full)+(isHalf?'\u00BD':'')+' '+val+'/5';
 }
-function makeClick(id, name, val) {
-  return function() {
-    if (!scores[id]) scores[id] = {};
-    scores[id][name] = val;
-    renderStars(id, name, val);
-    setScoreDisp(id, name, val);
+
+function makeHovIn(id,name,val){return function(){if(scores[id]&&scores[id][name])return;renderStars(id,name,val);};}
+function makeHovOut(id,name){return function(){renderStars(id,name,(scores[id]&&scores[id][name])||0);};}
+function makeClick(id,name,val){
+  return function(){
+    if(!scores[id]) scores[id]={};
+    scores[id][name]=val;
+    renderStars(id,name,val); setScoreDisp(id,name,val);
     checkBothRated(id);
   };
 }
-function makeReset(id, name) {
-  return function() {
-    if (!scores[id]) scores[id] = {};
-    scores[id][name] = 0;
-    renderStars(id, name, 0);
-    setScoreDisp(id, name, 0);
-    // Hide result if either is now unset
-    var rb = document.getElementById('rb-' + id);
-    if (rb) rb.style.display = 'none';
-    var card = document.getElementById('card-' + id);
-    if (card) card.classList.remove('done');
-    saveScore(id);
-    updateProgress(); updateBottomNav();
+function makeReset(id,name){
+  return function(){
+    if(!scores[id]) scores[id]={};
+    scores[id][name]=0;
+    renderStars(id,name,0); setScoreDisp(id,name,0);
+    var rb=document.getElementById('rb-'+id); if(rb) rb.style.display='none';
+    var card=document.getElementById('card-'+id); if(card) card.classList.remove('done');
+    saveScore(id); updateProgress(); updateBottomNav();
   };
 }
 
-function checkBothRated(id) {
-  var s = scores[id];
-  if (!s || !s.Brad || !s.Wes) return;
+function checkBothRated(id){
+  var s=scores[id]; if(!s||!s.Brad||!s.Wes) return;
   showResult(id);
-  var card = document.getElementById('card-' + id);
-  if (card) card.classList.add('done');
-  saveScore(id);
-  updateProgress(); updateBottomNav();
+  var card=document.getElementById('card-'+id); if(card) card.classList.add('done');
+  saveScore(id); updateProgress(); updateBottomNav();
 }
 
-function showResult(id) {
-  var s = scores[id]; if (!s || !s.Brad || !s.Wes) return;
-  var avg = ((s.Brad + s.Wes) / 2).toFixed(2).replace(/\.?0+$/, '');
-  // include guest avg if any
-  var gs = guestScores[id] || [];
-  var gAvgStr = '';
-  if (gs.length > 0) {
-    var gSum = gs.reduce(function(a,b){ return a + b.score; }, 0);
-    gAvgStr = ' <span style="font-size:0.6rem;color:var(--muted)">(Guest avg: ' + (gSum/gs.length).toFixed(1) + ')</span>';
+function showResult(id){
+  var s=scores[id]; if(!s||!s.Brad||!s.Wes) return;
+  var avg=((s.Brad+s.Wes)/2);
+  var avgStr=avg%1===0?avg.toFixed(1):avg.toFixed(2).replace(/0+$/,'');
+  var gs=guestScores[id]||[];
+  var gAvgStr='';
+  if(gs.length>0){
+    var gSum=gs.reduce(function(a,b){return a+b.score;},0);
+    gAvgStr='<div class="res-guest">Guest avg: '+(gSum/gs.length).toFixed(1)+' ('+gs.length+')</div>';
   }
-  var rb = document.getElementById('rb-' + id);
-  if (rb) {
-    rb.style.display = 'block';
-    rb.innerHTML = '<div class="res-label">Scores</div>' +
-      '<div class="res-scores">Brad: '+s.Brad+' &middot; Wes: '+s.Wes+'</div>' +
-      '<div class="res-avg">'+avg+'</div>' +
-      '<div class="res-avg-label">avg</div>' + gAvgStr;
+  var rb=document.getElementById('rb-'+id);
+  if(rb){
+    rb.style.display='block';
+    rb.innerHTML='<div class="res-label">Scores</div><div class="res-scores">Brad: '+s.Brad+' &middot; Wes: '+s.Wes+'</div><div class="res-avg">'+avgStr+'</div><div class="res-avg-label">avg</div>'+gAvgStr;
   }
 }
 
-// ─── GUEST RATING ─────────────────────────────────────────────────────────────
-function submitGuest(id) {
-  var nameEl  = document.getElementById('gname-'  + id);
-  var scoreEl = document.getElementById('gscore-' + id);
-  if (!nameEl || !scoreEl) return;
-  var gname  = nameEl.value.trim();
-  var gscore = parseFloat(scoreEl.value);
-  if (!gname) { alert('Please enter a name.'); return; }
-  if (isNaN(gscore) || gscore < 0.5 || gscore > 5) { alert('Please enter a score between 0.5 and 5.'); return; }
-  // Round to nearest 0.5
-  gscore = Math.round(gscore * 2) / 2;
-  if (!guestScores[id]) guestScores[id] = [];
-  guestScores[id].push({ name: gname, score: gscore });
-  nameEl.value = ''; scoreEl.value = '';
-  // Update result display if already both rated
-  if (scores[id] && scores[id].Brad && scores[id].Wes) showResult(id);
+// ─── GUEST SUBMIT ─────────────────────────────────────────────────────────────
+function submitGuest(id){
+  var nameEl=document.getElementById('gname-'+id);
+  var gname=(nameEl&&nameEl.value.trim())||'';
+  var gscore=guestPendingScore[id]||0;
+  if(!gname){alert('Please enter a guest name.');return;}
+  if(!gscore){alert('Please select a star rating.');return;}
+  if(!guestScores[id]) guestScores[id]=[];
+  guestScores[id].push({name:gname,score:gscore});
+  nameEl.value='';
+  guestPendingScore[id]=0;
+  renderGuestStars(id,0);
+  setGuestDisp(id,0);
+  if(scores[id]&&scores[id].Brad&&scores[id].Wes) showResult(id);
   saveScore(id);
 }
 
 // ─── IMAGE ────────────────────────────────────────────────────────────────────
-function makeThumbClick(id, src, idx) {
-  return function() {
-    setMainImg(id, src);
-    var strip = document.getElementById('strip-' + id);
-    if (strip) strip.querySelectorAll('.thumb').forEach(function(t){ t.classList.toggle('active', +t.getAttribute('data-ti') === idx); });
+function makeThumbClick(id,src,idx){
+  return function(){
+    setMainImg(id,src);
+    var strip=document.getElementById('strip-'+id);
+    if(strip) strip.querySelectorAll('.thumb').forEach(function(t){t.classList.toggle('active',+t.getAttribute('data-ti')===idx);});
   };
 }
-function setMainImg(id, src) {
-  var main = document.getElementById('gm-' + id); if (!main) return;
-  main.innerHTML = ''; var img = document.createElement('img'); img.src = src; img.alt = 'Lamp';
-  img.onerror = function(){ main.innerHTML='<div class="gal-ph"><span class="ico">\u26A0</span><span>Image failed to load</span></div>'; };
+function setMainImg(id,src){
+  var main=document.getElementById('gm-'+id); if(!main) return;
+  main.innerHTML=''; var img=document.createElement('img'); img.src=src; img.alt='Lamp';
+  img.onerror=function(){main.innerHTML='<div class="gal-ph"><span class="ico">\u26A0</span><span>Image failed to load</span></div>';};
   main.appendChild(img);
 }
-function handleUpload(id, files) {
-  if (!files || !files.length) return;
-  Array.from(files).forEach(function(file){ var r=new FileReader(); r.onload=function(e){ addImageSrc(id,e.target.result); }; r.readAsDataURL(file); });
+function handleUpload(id,files){
+  if(!files||!files.length) return;
+  Array.from(files).forEach(function(file){var r=new FileReader();r.onload=function(e){addImageSrc(id,e.target.result);};r.readAsDataURL(file);});
 }
-function applyUrl(id) {
-  var input = document.getElementById('url-' + id); var url = (input.value||'').trim(); if (!url) return;
-  addImageSrc(id, url); input.value = '';
+function applyUrl(id){
+  var input=document.getElementById('url-'+id); var url=(input.value||'').trim(); if(!url) return;
+  addImageSrc(id,url); input.value='';
 }
-function addImageSrc(id, src) {
-  if (!extraImages[id]) extraImages[id] = [];
-  var idx = extraImages[id].length; extraImages[id].push(src);
-  var strip = document.getElementById('strip-' + id); if (!strip) return;
-  var th = document.createElement('div'); th.className = 'thumb'; th.setAttribute('data-ti', idx);
-  var img = document.createElement('img'); img.src = src; th.appendChild(img);
-  th.addEventListener('click', makeThumbClick(id, src, idx));
-  strip.appendChild(th); setMainImg(id, src);
-  strip.querySelectorAll('.thumb').forEach(function(t){ t.classList.toggle('active', +t.getAttribute('data-ti') === idx); });
-  // Auto-open the panel when an image is added
-  var pp = document.getElementById('pp-' + id);
-  var tog = pp && pp.previousElementSibling;
-  if (pp && !pp.classList.contains('open')) {
-    pp.classList.add('open');
-    if (tog) tog.classList.add('open');
-  }
+function addImageSrc(id,src){
+  if(!extraImages[id]) extraImages[id]=[];
+  var idx=extraImages[id].length; extraImages[id].push(src);
+  var strip=document.getElementById('strip-'+id); if(!strip) return;
+  var th=document.createElement('div'); th.className='thumb'; th.setAttribute('data-ti',idx);
+  var img=document.createElement('img'); img.src=src; th.appendChild(img);
+  th.addEventListener('click',makeThumbClick(id,src,idx));
+  strip.appendChild(th); setMainImg(id,src);
+  strip.querySelectorAll('.thumb').forEach(function(t){t.classList.toggle('active',+t.getAttribute('data-ti')===idx);});
+  var pp=document.getElementById('pp-'+id), tog=pp&&pp.previousElementSibling;
+  if(pp&&!pp.classList.contains('open')){pp.classList.add('open');if(tog)tog.classList.add('open');}
 }
 
 // ─── NAV ──────────────────────────────────────────────────────────────────────
-function navTo(idx) {
-  if (idx < 0 || idx >= LAMPS.length) return;
-  currentIdx = idx;
-  var card = document.getElementById('card-' + LAMPS[idx].id);
-  if (card) card.scrollIntoView({behavior:'smooth', block:'start'});
+function navTo(idx){
+  if(idx<0||idx>=LAMPS.length) return;
+  currentIdx=idx;
+  var card=document.getElementById('card-'+LAMPS[idx].id);
+  if(card) card.scrollIntoView({behavior:'smooth',block:'start'});
   updateBottomNav();
 }
-function navNext() {
-  if (currentIdx < LAMPS.length-1) navTo(currentIdx+1); else showSummary();
-}
-window.addEventListener('scroll', function() {
-  if (showingSummary) return;
-  var best = 0;
-  for (var i = 0; i < LAMPS.length; i++) {
-    var el = document.getElementById('card-' + LAMPS[i].id);
-    if (el && el.getBoundingClientRect().top <= 100) best = i;
-  }
-  if (best !== currentIdx) { currentIdx = best; updateBottomNav(); }
-}, {passive:true});
+function navNext(){ if(currentIdx<LAMPS.length-1) navTo(currentIdx+1); else showSummary(); }
+window.addEventListener('scroll',function(){
+  if(showingSummary) return;
+  var best=0;
+  for(var i=0;i<LAMPS.length;i++){var el=document.getElementById('card-'+LAMPS[i].id);if(el&&el.getBoundingClientRect().top<=100)best=i;}
+  if(best!==currentIdx){currentIdx=best;updateBottomNav();}
+},{passive:true});
 
-function updateBottomNav() {
-  var lamp = LAMPS[currentIdx];
-  var nm = lamp ? lamp.id + ': ' + lamp.name : '';
-  if (nm.length > 55) nm = nm.substring(0,55) + '\u2026';
-  var infoEl = document.getElementById('bnav-info'); if (infoEl) infoEl.textContent = 'Lamp '+(currentIdx+1)+' of '+total()+' \u2014 '+nm;
-  var bb = document.getElementById('btn-back'); if (bb) bb.disabled = currentIdx === 0;
-  var rated = Object.keys(scores).filter(function(k){ return scores[k].Brad && scores[k].Wes; }).length;
-  var sb = document.getElementById('btn-summary'); if (sb) sb.style.display = rated > 0 ? 'inline-block' : 'none';
-  var nb = document.getElementById('btn-next'); if (nb) nb.textContent = currentIdx === LAMPS.length-1 ? 'See Results \u2192' : 'Next \u2192';
+function updateBottomNav(){
+  var lamp=LAMPS[currentIdx]; var nm=lamp?lamp.id+': '+lamp.name:'';
+  if(nm.length>55) nm=nm.substring(0,55)+'\u2026';
+  var infoEl=document.getElementById('bnav-info'); if(infoEl) infoEl.textContent='Lamp '+(currentIdx+1)+' of '+total()+' \u2014 '+nm;
+  var bb=document.getElementById('btn-back'); if(bb) bb.disabled=currentIdx===0;
+  var rated=Object.keys(scores).filter(function(k){return scores[k].Brad&&scores[k].Wes;}).length;
+  var sb=document.getElementById('btn-summary'); if(sb) sb.style.display=rated>0?'inline-block':'none';
+  var nb=document.getElementById('btn-next'); if(nb) nb.textContent=currentIdx===LAMPS.length-1?'See Results \u2192':'Next \u2192';
 }
 
-// ─── PROGRESS ─────────────────────────────────────────────────────────────────
-function updateProgress() {
-  var rated = Object.keys(scores).filter(function(k){ return scores[k].Brad && scores[k].Wes; }).length;
-  var tot = total(); var pct = tot > 0 ? Math.round(rated/tot*100) : 0;
-  var txt = rated + ' of ' + tot + ' rated';
-  ['pt','bnav-pt'].forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=txt; });
-  ['pf','bnav-pf'].forEach(function(id){ var el=document.getElementById(id); if(el) el.style.width=pct+'%'; });
-  ['pp','bnav-pp'].forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=pct+'%'; });
+function updateProgress(){
+  var rated=Object.keys(scores).filter(function(k){return scores[k].Brad&&scores[k].Wes;}).length;
+  var tot=total(); var pct=tot>0?Math.round(rated/tot*100):0; var txt=rated+' of '+tot+' rated';
+  ['pt','bnav-pt'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=txt;});
+  ['pf','bnav-pf'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.width=pct+'%';});
+  ['pp','bnav-pp'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=pct+'%';});
 }
 
 // ─── SUMMARY ──────────────────────────────────────────────────────────────────
-function showSummary() {
-  showingSummary = true;
-  var el = document.getElementById('summary-lamps'); if (!el) return;
-  el.style.display = 'block'; el.scrollIntoView({behavior:'smooth', block:'start'});
-  var unrated = LAMPS.filter(function(l){ return !scores[l.id]||!scores[l.id].Brad||!scores[l.id].Wes; }).length;
-  var rated = total() - unrated;
-
-  function ranked(sec) {
-    return LAMPS.filter(function(l){ return l.sec===sec&&scores[l.id]&&scores[l.id].Brad&&scores[l.id].Wes; })
+function showSummary(){
+  showingSummary=true;
+  var el=document.getElementById('summary-lamps'); if(!el) return;
+  el.style.display='block'; el.scrollIntoView({behavior:'smooth',block:'start'});
+  var unrated=LAMPS.filter(function(l){return !scores[l.id]||!scores[l.id].Brad||!scores[l.id].Wes;}).length;
+  function ranked(sec){
+    return LAMPS.filter(function(l){return l.sec===sec&&scores[l.id]&&scores[l.id].Brad&&scores[l.id].Wes;})
       .map(function(l){
         var s=scores[l.id]; var avg=(s.Brad+s.Wes)/2;
-        var gs=guestScores[l.id]||[]; var gavg=gs.length>0?(gs.reduce(function(a,b){return a+b.score;},0)/gs.length):null;
-        return {l:l,avg:avg,b:s.Brad,w:s.Wes,gavg:gavg,gcnt:gs.length};
+        var gs=guestScores[l.id]||[]; var gavg=gs.length>0?gs.reduce(function(a,b){return a+b.score;},0)/gs.length:null;
+        return{l:l,avg:avg,b:s.Brad,w:s.Wes,gavg:gavg,gcnt:gs.length};
       }).sort(function(a,b){return b.avg-a.avg;});
   }
-  function tbl(items) {
-    if (!items.length) return '<p style="color:var(--muted);font-size:0.74rem">No lamps rated yet.</p>';
-    return '<table class="rtbl"><thead><tr><th>#</th><th>Lamp</th><th class="tc">Avg</th><th class="tc">B/W</th><th class="tc">Guest Avg</th><th>Link</th></tr></thead><tbody>' +
+  function tbl(items){
+    if(!items.length) return '<p style="color:var(--muted);font-size:0.74rem">No lamps rated yet.</p>';
+    return '<table class="rtbl"><thead><tr><th>#</th><th>Lamp</th><th class="tc">Avg</th><th class="tc">B/W</th><th class="tc">Guest Avg</th><th>Link</th></tr></thead><tbody>'+
       items.map(function(it,i){
-        var lk = it.l.links&&it.l.links[0] ? '<a href="'+it.l.links[0].url+'" target="_blank" rel="noopener">'+esc(it.l.links[0].store)+' \u2197</a>' : '\u2014';
-        var avgStr = it.avg % 1 === 0 ? it.avg.toFixed(1) : it.avg.toFixed(2).replace(/0+$/,'');
-        var gavgStr = it.gavg !== null ? (it.gavg.toFixed(1)+' <small style="color:var(--muted)">('+it.gcnt+')</small>') : '<span style="color:var(--muted)">—</span>';
-        return '<tr>' +
-          '<td class="td-rk">'+(i+1)+'</td>' +
-          '<td class="td-nm">'+esc(it.l.id)+' &middot; '+esc(it.l.name)+(it.l.height?' <small style="color:var(--tc-light);font-size:0.6rem">('+esc(it.l.height)+')</small>':'')+'</td>' +
-          '<td class="td-av">'+avgStr+'</td>' +
-          '<td class="td-sc">'+it.b+'/'+it.w+'</td>' +
-          '<td class="td-ga">'+gavgStr+'</td>' +
-          '<td class="td-lk">'+lk+'</td>' +
-          '</tr>';
-      }).join('') + '</tbody></table>';
+        var lk=it.l.links&&it.l.links[0]?'<a href="'+it.l.links[0].url+'" target="_blank" rel="noopener">'+esc(it.l.links[0].store)+' \u2197</a>':'\u2014';
+        var avgStr=it.avg%1===0?it.avg.toFixed(1):it.avg.toFixed(2).replace(/0+$/,'');
+        var gavgStr=it.gavg!==null?it.gavg.toFixed(1)+' <small style="color:var(--muted)">('+it.gcnt+')</small>':'<span style="color:var(--muted)">\u2014</span>';
+        return '<tr><td class="td-rk">'+(i+1)+'</td><td class="td-nm">'+esc(it.l.id)+' &middot; '+esc(it.l.name)+(it.l.height?' <small style="color:var(--tc-light);font-size:0.6rem">('+esc(it.l.height)+')</small>':'')+'</td><td class="td-av">'+avgStr+'</td><td class="td-sc">'+it.b+'/'+it.w+'</td><td class="td-ga">'+gavgStr+'</td><td class="td-lk">'+lk+'</td></tr>';
+      }).join('')+'</tbody></table>';
   }
-  el.innerHTML = '<div class="sum-hdr">Results</div>' +
-    '<div class="sum-sub">'+rated+' of '+total()+' lamps rated &middot; sorted by Brad &amp; Wes average</div>' +
-    '<div class="sum-sec">Bedside Lamps</div>'+tbl(ranked('bedside'))+
-    '<div class="sum-sec">Accent Lamps</div>'+tbl(ranked('accent'))+
+  el.innerHTML='<div class="sum-hdr">Results</div><div class="sum-sub">'+(total()-unrated)+' of '+total()+' lamps rated &middot; sorted by Brad &amp; Wes average</div>'+
+    '<div class="sum-sec">Bedside Lamps</div>'+tbl(ranked('bedside'))+'<div class="sum-sec">Accent Lamps</div>'+tbl(ranked('accent'))+
     (unrated>0?'<div class="sum-sec" style="margin-top:16px">Unrated ('+unrated+')</div><p style="font-size:0.68rem;color:var(--muted)">'+LAMPS.filter(function(l){return !scores[l.id]||!scores[l.id].Brad||!scores[l.id].Wes;}).map(function(l){return l.id;}).join(', ')+'</p>':'')+
     '<button class="restart" onclick="location.reload()">Start Over</button>';
-
-  var bnInfo = document.getElementById('bnav-info'); if (bnInfo) bnInfo.textContent = 'Summary';
-  var nb = document.getElementById('btn-next'); if (nb) nb.style.display = 'none';
-  var bb = document.getElementById('btn-back'); if (bb) bb.style.display = 'none';
-  var sb = document.getElementById('btn-summary'); if (sb) { sb.textContent = '\u2190 Back to Lamps'; sb.onclick = backFromSummary; sb.style.display = 'inline-block'; }
+  var bnInfo=document.getElementById('bnav-info'); if(bnInfo) bnInfo.textContent='Summary';
+  var nb=document.getElementById('btn-next'); if(nb) nb.style.display='none';
+  var bb=document.getElementById('btn-back'); if(bb) bb.style.display='none';
+  var sb=document.getElementById('btn-summary'); if(sb){sb.textContent='\u2190 Back to Lamps';sb.onclick=backFromSummary;sb.style.display='inline-block';}
 }
-function backFromSummary() {
-  showingSummary = false;
-  var el = document.getElementById('summary-lamps'); if (el) el.style.display = 'none';
-  var nb = document.getElementById('btn-next'); if (nb) nb.style.display = '';
-  var bb = document.getElementById('btn-back'); if (bb) bb.style.display = '';
-  var sb = document.getElementById('btn-summary'); if (sb) { sb.textContent = 'Results'; sb.onclick = showSummary; }
+function backFromSummary(){
+  showingSummary=false;
+  var el=document.getElementById('summary-lamps'); if(el) el.style.display='none';
+  var nb=document.getElementById('btn-next'); if(nb) nb.style.display='';
+  var bb=document.getElementById('btn-back'); if(bb) bb.style.display='';
+  var sb=document.getElementById('btn-summary'); if(sb){sb.textContent='Results';sb.onclick=showSummary;}
   navTo(currentIdx);
 }
 
-// ─── UTIL ─────────────────────────────────────────────────────────────────────
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-// ─── ALSO add guest_scores column to supabase if not done ────────────────────
-// Run in Supabase SQL: alter table lamp_scores add column if not exists guest_scores text;
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-loadScores();
+init();
 </script>
 </body>
 </html>
