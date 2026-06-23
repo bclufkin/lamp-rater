@@ -172,11 +172,19 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 .restart:hover{background:var(--tc-dim);color:var(--cream);}
 @media(max-width:620px){
   .card-body{flex-direction:column;}
+  .panel-left{width:100%;flex:none;}
   .panel-right{flex:none;width:100%;}
+  .gallery{width:100%;}
   .rating-area{padding:10px;}
-  .gal-main{height:220px;}
+  .gal-main{height:260px;}
   .star-wrap{width:2rem;height:2rem;}
-  .links-bar{flex-wrap:wrap;}
+  .links-bar{display:flex;flex-wrap:nowrap;width:100%;gap:0;}
+  .link-slot.left{flex:1;align-items:flex-start;text-align:left;padding-right:4px;}
+  .link-slot.center{flex:1;align-items:center;text-align:center;padding:0 4px;}
+  .link-slot.right{flex:1;align-items:flex-end;text-align:right;padding-left:4px;}
+  .link-empty{flex:1;}
+  .link-slot a{font-size:0.68rem;}
+  .link-info{font-size:0.56rem;}
   .bnav-inner{flex-direction:column;gap:7px;align-items:stretch;}
   .bnav-info{white-space:normal;}
   .tab-btn{padding:9px 12px;font-size:0.65rem;}
@@ -194,7 +202,7 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 <div class="tab-content active" id="tab-lamps">
   <div class="hdr">
     <h1>Bedroom Lamp Rater</h1>
-    <div class="version">v4.0</div>
+    <div class="version">v4.1</div>
     <div class="sync-status" id="sync-status"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt">Loading...</span>
@@ -798,3 +806,4 @@ init();
 </script>
 </body>
 </html>
+
