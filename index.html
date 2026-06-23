@@ -197,12 +197,13 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
   <button class="tab-btn active" onclick="switchTab('lamps')">Lamps</button>
   <button class="tab-btn" onclick="switchTab('rugs')">Rugs</button>
   <button class="tab-btn" onclick="switchTab('dressers')">Dressers</button>
+  <button class="tab-btn" onclick="switchTab('misc')">Misc</button>
 </nav>
 
 <div class="tab-content active" id="tab-lamps">
   <div class="hdr">
     <h1>Bedroom Lamp Rater</h1>
-    <div class="version">v4.1</div>
+    <div class="version">v4.2</div>
     <div class="sync-status" id="sync-status"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt">Loading...</span>
@@ -241,12 +242,36 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 </div>
 
 <div class="tab-content" id="tab-dressers">
-  <div class="placeholder-page">
-    <div class="placeholder-icon">&#x1F6CB;&#xFE0F;</div>
-    <h2>Dressers</h2>
-    <p>Ready when you are. Share dresser candidates and this page will be fully built out with the same rating system.</p>
-    <div class="placeholder-note">Coming soon — share your dresser candidates to get started</div>
+  <div class="hdr">
+    <h1>Dresser Rater</h1>
+    <div class="version">v4.2</div>
+    <div class="sync-status" id="sync-status-dressers"></div>
+    <div class="prog-row">
+      <span class="prog-label" id="pt-dressers">Loading...</span>
+      <div class="prog-track"><div class="prog-fill" id="pf-dressers" style="width:0%"></div></div>
+      <span class="prog-label" id="pp-dressers"></span>
+    </div>
   </div>
+  <div id="view-dressers" style="flex:1;max-width:960px;width:100%;margin:0 auto;padding:0 0 60px;">
+    <div class="loading-state"><div class="loading-spinner"></div>Loading dressers...</div>
+  </div>
+  <div id="summary-dressers"></div>
+  <div class="bottom-nav-bar">
+    <div class="bnav-inner">
+      <span class="bnav-info" id="bnav-info-dressers">Loading...</span>
+      <div class="bnav-prog-wrap">
+        <span class="bnav-label" id="bnav-pt-dressers"></span>
+        <div class="bnav-track"><div class="bnav-fill" id="bnav-pf-dressers" style="width:0%"></div></div>
+        <span class="bnav-label" id="bnav-pp-dressers"></span>
+      </div>
+      <div class="bnav-btns">
+        <button class="bnav-btn" id="btn-back-dressers" onclick="tabNav('dressers','back')" disabled>&#8592; Back</button>
+        <button class="bnav-btn" id="btn-summary-dressers" onclick="showTabSummary('dressers')" style="display:none">Results</button>
+        <button class="bnav-btn primary" id="btn-next-dressers" onclick="tabNav('dressers','next')">Next &#8594;</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 <script>
@@ -804,6 +829,501 @@ function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').repl
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 init();
 </script>
+
+<div class="tab-content" id="tab-misc">
+  <div class="hdr">
+    <h1>Misc Rater</h1>
+    <div class="version">v4.2</div>
+    <div class="sync-status" id="sync-status-misc"></div>
+    <div class="prog-row">
+      <span class="prog-label" id="pt-misc">Loading...</span>
+      <div class="prog-track"><div class="prog-fill" id="pf-misc" style="width:0%"></div></div>
+      <span class="prog-label" id="pp-misc"></span>
+    </div>
+  </div>
+  <div id="view-misc" style="flex:1;max-width:960px;width:100%;margin:0 auto;padding:0 0 60px;">
+    <div class="loading-state"><div class="loading-spinner"></div>Loading items...</div>
+  </div>
+  <div id="summary-misc"></div>
+  <div class="bottom-nav-bar">
+    <div class="bnav-inner">
+      <span class="bnav-info" id="bnav-info-misc">Loading...</span>
+      <div class="bnav-prog-wrap">
+        <span class="bnav-label" id="bnav-pt-misc"></span>
+        <div class="bnav-track"><div class="bnav-fill" id="bnav-pf-misc" style="width:0%"></div></div>
+        <span class="bnav-label" id="bnav-pp-misc"></span>
+      </div>
+      <div class="bnav-btns">
+        <button class="bnav-btn" id="btn-back-misc" onclick="tabNav('misc','back')" disabled>&#8592; Back</button>
+        <button class="bnav-btn" id="btn-summary-misc" onclick="showTabSummary('misc')" style="display:none">Results</button>
+        <button class="bnav-btn primary" id="btn-next-misc" onclick="tabNav('misc','next')">Next &#8594;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// GENERIC TAB ENGINE
+// ═══════════════════════════════════════════════════════════════════════════════
+var TAB_STATE = {
+  dressers: { items:[], scores:{}, guestScores:{}, extraImages:{}, guestPending:{}, idx:0 },
+  misc:     { items:[], scores:{}, guestScores:{}, extraImages:{}, guestPending:{}, idx:0 }
+};
+var TAB_CFG = {
+  dressers: { table:'dressers', scoreTable:'dresser_scores', idPrefix:'D', label:'Dresser', specsLabel:'Specs' },
+  misc:     { table:'misc',     scoreTable:'misc_scores',    idPrefix:'M', label:'Item',    specsLabel:'Details' }
+};
+
+function initTab(tab) {
+  var cfg=TAB_CFG[tab]; var st=TAB_STATE[tab];
+  setTabStatus(tab,'Loading...','loading');
+  Promise.all([
+    supaFetch(cfg.table+'?order=sort_order'),
+    supaFetch(cfg.scoreTable+'?select=item_id,brad_score,wes_score,guest_scores')
+  ]).then(function(res) {
+    var rows=res[0]; var scoreRows=res[1];
+    st.items=(Array.isArray(rows)?rows:[]).map(function(r){
+      var links=[];
+      if(r.link1_store&&r.link1_url) links.push({store:r.link1_store,url:r.link1_url,info:r.link1_info||''});
+      if(r.link2_store&&r.link2_url) links.push({store:r.link2_store,url:r.link2_url,info:r.link2_info||''});
+      if(r.link3_store&&r.link3_url) links.push({store:r.link3_store,url:r.link3_url,info:r.link3_info||''});
+      return {id:r.id,name:r.name,brand:r.brand||'',specs:r.specs||'',note:r.note||'',img:r.img||'',links:links};
+    });
+    (Array.isArray(scoreRows)?scoreRows:[]).forEach(function(row){
+      if(!row.item_id) return;
+      if(row.brad_score||row.wes_score) st.scores[row.item_id]={Brad:row.brad_score||0,Wes:row.wes_score||0};
+      if(row.guest_scores){try{st.guestScores[row.item_id]=JSON.parse(row.guest_scores);}catch(e){}}
+    });
+    buildTabAll(tab);
+    Object.keys(st.scores).forEach(function(id){
+      var s=st.scores[id];
+      if(s.Brad){renderTabStars(tab,id,'Brad',s.Brad);setTabScoreDisp(tab,id,'Brad',s.Brad);}
+      if(s.Wes){renderTabStars(tab,id,'Wes',s.Wes);setTabScoreDisp(tab,id,'Wes',s.Wes);}
+      if(s.Brad&&s.Wes){showTabResult(tab,id);var card=document.getElementById('tcard-'+tab+'-'+id);if(card)card.classList.add('done');}
+    });
+    updateTabProgress(tab); updateTabBottomNav(tab);
+    setTabStatus(tab,'','');
+  }).catch(function(e){
+    console.error(tab+' load error',e);
+    var v=document.getElementById('view-'+tab);
+    if(v) v.innerHTML='<div class="loading-state" style="color:rgba(220,80,80,0.8)">Failed to load. Check Supabase.</div>';
+    setTabStatus(tab,'Load failed','error');
+  });
+}
+
+function saveTabScore(tab,id){
+  var cfg=TAB_CFG[tab]; var st=TAB_STATE[tab];
+  var s=st.scores[id]||{}; var gs=st.guestScores[id]||[];
+  setTabStatus(tab,'Saving...','saving');
+  supaFetch(cfg.scoreTable,'POST',{
+    item_id:id,brad_score:s.Brad||null,wes_score:s.Wes||null,
+    guest_scores:JSON.stringify(gs),updated_at:new Date().toISOString()
+  }).then(function(){setTabStatus(tab,'Saved','saved');})
+    .catch(function(){setTabStatus(tab,'Save failed','error');});
+}
+
+function saveTabItemToDb(tab,item,sortOrder){
+  var cfg=TAB_CFG[tab];
+  return supaFetch(cfg.table,'POST',{
+    id:item.id,name:item.name,brand:item.brand||null,specs:item.specs||null,
+    note:item.note||null,img:item.img||null,
+    link1_store:item.links[0]?item.links[0].store:null,link1_url:item.links[0]?item.links[0].url:null,link1_info:item.links[0]?item.links[0].info:null,
+    link2_store:item.links[1]?item.links[1].store:null,link2_url:item.links[1]?item.links[1].url:null,link2_info:item.links[1]?item.links[1].info:null,
+    link3_store:item.links[2]?item.links[2].store:null,link3_url:item.links[2]?item.links[2].url:null,link3_info:item.links[2]?item.links[2].info:null,
+    sort_order:sortOrder
+  });
+}
+
+function setTabStatus(tab,msg,cls){
+  var el=document.getElementById('sync-status-'+tab); if(!el) return;
+  el.textContent=msg; el.className='sync-status '+(cls||'');
+  if(cls==='saved') setTimeout(function(){if(el.textContent===msg){el.textContent='';el.className='sync-status';}},2500);
+}
+
+function buildTabAll(tab){
+  var cfg=TAB_CFG[tab]; var st=TAB_STATE[tab];
+  var view=document.getElementById('view-'+tab); if(!view) return;
+  view.innerHTML='';
+  var addDiv=document.createElement('div');
+  addDiv.style.cssText='padding:14px 24px;background:var(--plum);border-bottom:2px solid var(--tc);text-align:center;';
+  addDiv.innerHTML='<button class="add-lamp-btn" onclick="toggleTabAddForm(\''+tab+'\')">+ Add '+cfg.label+'</button>';
+  addDiv.appendChild(buildTabAddForm(tab));
+  view.appendChild(addDiv);
+  st.items.forEach(function(item,i){view.appendChild(buildTabCard(tab,item,i));});
+}
+
+function buildTabAddForm(tab){
+  var cfg=TAB_CFG[tab];
+  var form=document.createElement('div'); form.className='add-lamp-form'; form.id='add-form-'+tab;
+  form.innerHTML='<h3>Add a New '+cfg.label+'</h3>'+
+    '<div class="form-grid">'+
+      '<div><label>Name *</label><input type="text" id="tf-name-'+tab+'"></div>'+
+      '<div><label>Brand</label><input type="text" id="tf-brand-'+tab+'"></div>'+
+      '<div><label>'+cfg.specsLabel+'</label><input type="text" id="tf-specs-'+tab+'" placeholder="e.g. King, 100% Linen, Terracotta"></div>'+
+      '<div><label>Image URL</label><input type="text" id="tf-img-'+tab+'" placeholder="https://..."></div>'+
+      '<div class="full"><label>Notes</label><textarea id="tf-note-'+tab+'"></textarea></div>'+
+    '</div>'+
+    '<div class="link-inputs"><label>Purchase Links</label>'+
+      '<div class="link-row"><span class="lbl">Left</span><input id="tf-ls-'+tab+'" placeholder="Store"><input id="tf-lu-'+tab+'" placeholder="URL"><input id="tf-li-'+tab+'" placeholder="Info"></div>'+
+      '<div class="link-row"><span class="lbl">Center</span><input id="tf-cs-'+tab+'" placeholder="Store"><input id="tf-cu-'+tab+'" placeholder="URL"><input id="tf-ci-'+tab+'" placeholder="Info"></div>'+
+      '<div class="link-row"><span class="lbl">Right</span><input id="tf-rs-'+tab+'" placeholder="Store"><input id="tf-ru-'+tab+'" placeholder="URL"><input id="tf-ri-'+tab+'" placeholder="Info"></div>'+
+    '</div>'+
+    '<div class="form-btns"><button class="form-submit" onclick="submitTabAddForm(\''+tab+'\')">Add '+cfg.label+'</button><button class="form-cancel" onclick="toggleTabAddForm(\''+tab+'\')">Cancel</button></div>';
+  return form;
+}
+
+function toggleTabAddForm(tab){
+  var f=document.getElementById('add-form-'+tab); if(f) f.style.display=f.style.display==='block'?'none':'block';
+}
+
+function submitTabAddForm(tab){
+  var g=function(id){var el=document.getElementById(id);return el?el.value.trim():'';};
+  var name=g('tf-name-'+tab); if(!name){alert('Please enter a name.');return;}
+  var cfg=TAB_CFG[tab]; var st=TAB_STATE[tab];
+  var nums=st.items.map(function(it){return parseInt(it.id.replace(/[^0-9]/g,''))||0;});
+  var newId=cfg.idPrefix+(Math.max.apply(null,nums.concat([0]))+1);
+  var links=[];
+  [['ls','lu','li'],['cs','cu','ci'],['rs','ru','ri']].forEach(function(k){
+    var s=g('tf-'+k[0]+'-'+tab),u=g('tf-'+k[1]+'-'+tab),i=g('tf-'+k[2]+'-'+tab);
+    if(s&&u) links.push({store:s,url:u,info:i});
+  });
+  var item={id:newId,name:name,brand:g('tf-brand-'+tab),specs:g('tf-specs-'+tab),note:g('tf-note-'+tab),img:g('tf-img-'+tab),links:links};
+  st.items.push(item);
+  setTabStatus(tab,'Saving...','saving');
+  saveTabItemToDb(tab,item,st.items.length).then(function(){setTabStatus(tab,'Saved','saved');}).catch(function(){setTabStatus(tab,'Save failed','error');});
+  var view=document.getElementById('view-'+tab);
+  var nc=buildTabCard(tab,item,st.items.length-1);
+  view.appendChild(nc);
+  toggleTabAddForm(tab); updateTabProgress(tab); updateTabBottomNav(tab);
+  nc.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function buildTabCard(tab,item){
+  var st=TAB_STATE[tab];
+  var card=document.createElement('div'); card.className='lamp-card'; card.id='tcard-'+tab+'-'+item.id;
+  var title=document.createElement('div'); title.className='lamp-title';
+  title.innerHTML='<span class="lamp-num">'+esc(item.id)+'</span><span class="lamp-name">'+esc(item.name)+'</span>'+
+    (item.specs?'<span class="lamp-ht" style="font-size:0.72rem;letter-spacing:0.04em;text-transform:none;max-width:280px;white-space:normal;line-height:1.2;">'+esc(item.specs)+'</span>':'');
+  card.appendChild(title);
+  if(item.note){var nn=document.createElement('div');nn.className='lamp-note';nn.textContent=item.note;card.appendChild(nn);}
+
+  var body=document.createElement('div'); body.className='card-body';
+  var left=document.createElement('div'); left.className='panel-left';
+  var gallery=document.createElement('div'); gallery.className='gallery';
+  var main=document.createElement('div'); main.className='gal-main'; main.id='tgm-'+tab+'-'+item.id;
+  if(item.img){
+    var pi=document.createElement('img'); pi.src=item.img; pi.alt=item.name;
+    pi.onerror=function(){main.innerHTML='<div class="gal-ph"><span class="ico">\u26A0</span><span>Image failed</span></div>';};
+    main.appendChild(pi);
+    if(!st.extraImages[item.id]) st.extraImages[item.id]=[item.img];
+  } else {
+    main.innerHTML='<div class="gal-ph"><span class="ico">\uD83D\uDDBC\uFE0F</span><span>Upload images below</span></div>';
+    if(!st.extraImages[item.id]) st.extraImages[item.id]=[];
+  }
+  gallery.appendChild(main);
+
+  var togBtn=document.createElement('button'); togBtn.className='photo-toggle'; togBtn.type='button';
+  togBtn.innerHTML='<span class="caret">&#9658;</span> Photos & Upload';
+  var photoPanel=document.createElement('div'); photoPanel.className='photo-panel'; photoPanel.id='tpp-'+tab+'-'+item.id;
+  togBtn.addEventListener('click',function(){togBtn.classList.toggle('open');photoPanel.classList.toggle('open');});
+  gallery.appendChild(togBtn);
+
+  var strip=document.createElement('div'); strip.className='thumb-strip'; strip.id='tstrip-'+tab+'-'+item.id;
+  if(item.img){
+    var th0=document.createElement('div'); th0.className='thumb active'; th0.setAttribute('data-ti',0);
+    var ti0=document.createElement('img'); ti0.src=item.img; th0.appendChild(ti0);
+    th0.addEventListener('click',makeTabThumbClick(tab,item.id,item.img,0)); strip.appendChild(th0);
+  }
+  photoPanel.appendChild(strip);
+  var ctrl=document.createElement('div'); ctrl.className='img-controls';
+  var fileId='tfile-'+tab+'-'+item.id;
+  ctrl.innerHTML='<label class="upload-btn" for="'+fileId+'">\u2191 Upload</label><input type="file" id="'+fileId+'" accept="image/*" multiple>'+
+    '<input type="text" id="turl-'+tab+'-'+item.id+'" placeholder="Paste image URL\u2026">'+
+    '<button onclick="applyTabUrl(\''+tab+'\',\''+item.id+'\')">Add</button>';
+  photoPanel.appendChild(ctrl);
+  gallery.appendChild(photoPanel);
+  setTimeout(function(){var fi=document.getElementById(fileId);if(fi)fi.addEventListener('change',function(e){handleTabUpload(tab,item.id,e.target.files);});},0);
+
+  left.appendChild(gallery);
+  left.appendChild(buildLinksBar(item.links));
+  body.appendChild(left);
+
+  var right=document.createElement('div'); right.className='panel-right';
+  var ra=document.createElement('div'); ra.className='rating-area'; ra.id='tra-'+tab+'-'+item.id;
+  ['Brad','Wes'].forEach(function(name,ni){
+    if(ni>0){var dv=document.createElement('div');dv.className='rater-divider';ra.appendChild(dv);}
+    var block=document.createElement('div'); block.className='rater-block';
+    block.innerHTML='<div class="rater-name">'+name+'</div>';
+    var starsDiv=document.createElement('div'); starsDiv.className='stars'; starsDiv.id='tstars-'+tab+'-'+item.id+'-'+name;
+    for(var s=1;s<=5;s++) starsDiv.appendChild(buildTabStarWrap(tab,item.id,name,s));
+    block.appendChild(starsDiv);
+    var disp=document.createElement('div'); disp.className='score-disp'; disp.id='tsd-'+tab+'-'+item.id+'-'+name; block.appendChild(disp);
+    var resetBtn=document.createElement('button'); resetBtn.className='rating-ctrl-btn'; resetBtn.textContent='Reset';
+    resetBtn.addEventListener('click',makeTabReset(tab,item.id,name)); block.appendChild(resetBtn);
+    ra.appendChild(block);
+  });
+  var rdiv=document.createElement('div'); rdiv.className='rater-divider'; ra.appendChild(rdiv);
+  var rb=document.createElement('div'); rb.className='result-block'; rb.id='trb-'+tab+'-'+item.id; ra.appendChild(rb);
+
+  var guestSec=document.createElement('div'); guestSec.className='guest-section';
+  guestSec.innerHTML='<div class="guest-label">Guest Rating</div>'+
+    '<div class="guest-name-row"><input type="text" id="tgname-'+tab+'-'+item.id+'" placeholder="Guest name" maxlength="20"></div>'+
+    '<div class="guest-stars-row" id="tgstars-'+tab+'-'+item.id+'"></div>'+
+    '<div class="score-disp" id="tgsd-'+tab+'-'+item.id+'" style="text-align:center;margin-bottom:5px;"></div>'+
+    '<button class="guest-submit" onclick="submitTabGuest(\''+tab+'\',\''+item.id+'\')">Add Guest Rating</button>';
+  ra.appendChild(guestSec);
+  setTimeout(function(){
+    var gs=document.getElementById('tgstars-'+tab+'-'+item.id); if(!gs) return;
+    for(var s=1;s<=5;s++) gs.appendChild(buildTabGuestStarWrap(tab,item.id,s));
+  },0);
+
+  right.appendChild(ra); body.appendChild(right); card.appendChild(body);
+  return card;
+}
+
+function buildTabStarWrap(tab,id,name,starNum){
+  var wrap=document.createElement('div'); wrap.className='star-wrap';
+  var uid='t-'+tab+'-'+id+'-'+name+'-'+starNum;
+  wrap.innerHTML='<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">'+
+    '<defs><clipPath id="cl-'+uid+'"><rect x="0" y="0" width="12" height="24"/></clipPath>'+
+    '<clipPath id="cr-'+uid+'"><rect x="12" y="0" width="12" height="24"/></clipPath></defs>'+
+    '<polygon class="star-poly" fill="var(--star-off)" points="'+PTS+'"/>'+
+    '<polygon class="star-poly" id="sl-'+uid+'" fill="var(--star-off)" clip-path="url(#cl-'+uid+')" points="'+PTS+'"/>'+
+    '<polygon class="star-poly" id="sr-'+uid+'" fill="var(--star-off)" clip-path="url(#cr-'+uid+')" points="'+PTS+'"/>'+
+    '</svg><div class="star-left-hit"></div><div class="star-right-hit"></div>';
+  var lh=wrap.querySelector('.star-left-hit'),rh=wrap.querySelector('.star-right-hit');
+  var hv=starNum-0.5,fv=starNum;
+  lh.addEventListener('mouseenter',makeTabHovIn(tab,id,name,hv));
+  lh.addEventListener('mouseleave',makeTabHovOut(tab,id,name));
+  lh.addEventListener('click',makeTabClick(tab,id,name,hv));
+  rh.addEventListener('mouseenter',makeTabHovIn(tab,id,name,fv));
+  rh.addEventListener('mouseleave',makeTabHovOut(tab,id,name));
+  rh.addEventListener('click',makeTabClick(tab,id,name,fv));
+  return wrap;
+}
+
+function buildTabGuestStarWrap(tab,id,starNum){
+  var wrap=document.createElement('div'); wrap.className='star-wrap';
+  var uid='tg-'+tab+'-'+id+'-'+starNum;
+  wrap.innerHTML='<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">'+
+    '<defs><clipPath id="cl-'+uid+'"><rect x="0" y="0" width="12" height="24"/></clipPath>'+
+    '<clipPath id="cr-'+uid+'"><rect x="12" y="0" width="12" height="24"/></clipPath></defs>'+
+    '<polygon class="star-poly" fill="var(--star-off)" points="'+PTS+'"/>'+
+    '<polygon class="star-poly" id="sl-'+uid+'" fill="var(--star-off)" clip-path="url(#cl-'+uid+')" points="'+PTS+'"/>'+
+    '<polygon class="star-poly" id="sr-'+uid+'" fill="var(--star-off)" clip-path="url(#cr-'+uid+')" points="'+PTS+'"/>'+
+    '</svg><div class="star-left-hit"></div><div class="star-right-hit"></div>';
+  var lh=wrap.querySelector('.star-left-hit'),rh=wrap.querySelector('.star-right-hit');
+  var hv=starNum-0.5,fv=starNum;
+  lh.addEventListener('mouseenter',function(){renderTabGuestStars(tab,id,hv);});
+  lh.addEventListener('mouseleave',function(){renderTabGuestStars(tab,id,TAB_STATE[tab].guestPending[id]||0);});
+  lh.addEventListener('click',function(){TAB_STATE[tab].guestPending[id]=hv;renderTabGuestStars(tab,id,hv);setTabGuestDisp(tab,id,hv);});
+  rh.addEventListener('mouseenter',function(){renderTabGuestStars(tab,id,fv);});
+  rh.addEventListener('mouseleave',function(){renderTabGuestStars(tab,id,TAB_STATE[tab].guestPending[id]||0);});
+  rh.addEventListener('click',function(){TAB_STATE[tab].guestPending[id]=fv;renderTabGuestStars(tab,id,fv);setTabGuestDisp(tab,id,fv);});
+  return wrap;
+}
+
+function renderTabStars(tab,id,name,val){
+  val=val||0;
+  for(var s=1;s<=5;s++){
+    var uid='t-'+tab+'-'+id+'-'+name+'-'+s;
+    var lEl=document.getElementById('sl-'+uid),rEl=document.getElementById('sr-'+uid);
+    if(!lEl||!rEl) continue;
+    var filled=val>=s,half=!filled&&val>=(s-0.5);
+    lEl.style.fill=(filled||half)?'var(--star-on)':'var(--star-off)';
+    rEl.style.fill=filled?'var(--star-on)':'var(--star-off)';
+  }
+}
+function renderTabGuestStars(tab,id,val){
+  val=val||0;
+  for(var s=1;s<=5;s++){
+    var uid='tg-'+tab+'-'+id+'-'+s;
+    var lEl=document.getElementById('sl-'+uid),rEl=document.getElementById('sr-'+uid);
+    if(!lEl||!rEl) continue;
+    var filled=val>=s,half=!filled&&val>=(s-0.5);
+    lEl.style.fill=(filled||half)?'var(--star-on)':'var(--star-off)';
+    rEl.style.fill=filled?'var(--star-on)':'var(--star-off)';
+  }
+}
+function setTabScoreDisp(tab,id,name,val){
+  var el=document.getElementById('tsd-'+tab+'-'+id+'-'+name); if(!el) return;
+  if(!val){el.textContent='';return;}
+  var full=Math.floor(val),isHalf=(val%1!==0);
+  el.textContent='\u2605'.repeat(full)+(isHalf?'\u00BD':'')+' '+val+'/5';
+}
+function setTabGuestDisp(tab,id,val){
+  var el=document.getElementById('tgsd-'+tab+'-'+id); if(!el) return;
+  if(!val){el.textContent='';return;}
+  var full=Math.floor(val),isHalf=(val%1!==0);
+  el.textContent='\u2605'.repeat(full)+(isHalf?'\u00BD':'')+' '+val+'/5';
+}
+function makeTabHovIn(tab,id,name,val){
+  return function(){var st=TAB_STATE[tab];if(st.scores[id]&&st.scores[id][name])return;renderTabStars(tab,id,name,val);};
+}
+function makeTabHovOut(tab,id,name){
+  return function(){var st=TAB_STATE[tab];renderTabStars(tab,id,name,(st.scores[id]&&st.scores[id][name])||0);};
+}
+function makeTabClick(tab,id,name,val){
+  return function(){
+    var st=TAB_STATE[tab]; if(!st.scores[id]) st.scores[id]={};
+    st.scores[id][name]=val; renderTabStars(tab,id,name,val); setTabScoreDisp(tab,id,name,val);
+    checkTabBothRated(tab,id);
+  };
+}
+function makeTabReset(tab,id,name){
+  return function(){
+    var st=TAB_STATE[tab]; if(!st.scores[id]) st.scores[id]={};
+    st.scores[id][name]=0; renderTabStars(tab,id,name,0); setTabScoreDisp(tab,id,name,0);
+    var rb=document.getElementById('trb-'+tab+'-'+id); if(rb) rb.style.display='none';
+    var card=document.getElementById('tcard-'+tab+'-'+id); if(card) card.classList.remove('done');
+    saveTabScore(tab,id); updateTabProgress(tab); updateTabBottomNav(tab);
+  };
+}
+function checkTabBothRated(tab,id){
+  var st=TAB_STATE[tab]; var s=st.scores[id]; if(!s||!s.Brad||!s.Wes) return;
+  showTabResult(tab,id);
+  var card=document.getElementById('tcard-'+tab+'-'+id); if(card) card.classList.add('done');
+  saveTabScore(tab,id); updateTabProgress(tab); updateTabBottomNav(tab);
+}
+function showTabResult(tab,id){
+  var st=TAB_STATE[tab]; var s=st.scores[id]; if(!s||!s.Brad||!s.Wes) return;
+  var avg=(s.Brad+s.Wes)/2;
+  var avgStr=avg%1===0?avg.toFixed(1):avg.toFixed(2).replace(/0+$/,'');
+  var gs=st.guestScores[id]||[];
+  var gAvgStr='';
+  if(gs.length>0){var gSum=gs.reduce(function(a,b){return a+b.score;},0);gAvgStr='<div class="res-guest">Guest avg: '+(gSum/gs.length).toFixed(1)+' ('+gs.length+')</div>';}
+  var rb=document.getElementById('trb-'+tab+'-'+id);
+  if(rb){rb.style.display='block';rb.innerHTML='<div class="res-label">Scores</div><div class="res-scores">Brad: '+s.Brad+' &middot; Wes: '+s.Wes+'</div><div class="res-avg">'+avgStr+'</div><div class="res-avg-label">avg</div>'+gAvgStr;}
+}
+function submitTabGuest(tab,id){
+  var st=TAB_STATE[tab];
+  var nameEl=document.getElementById('tgname-'+tab+'-'+id);
+  var gname=(nameEl&&nameEl.value.trim())||'';
+  var gscore=st.guestPending[id]||0;
+  if(!gname){alert('Please enter a guest name.');return;}
+  if(!gscore){alert('Please select a star rating.');return;}
+  if(!st.guestScores[id]) st.guestScores[id]=[];
+  st.guestScores[id].push({name:gname,score:gscore});
+  nameEl.value=''; st.guestPending[id]=0;
+  renderTabGuestStars(tab,id,0); setTabGuestDisp(tab,id,0);
+  if(st.scores[id]&&st.scores[id].Brad&&st.scores[id].Wes) showTabResult(tab,id);
+  saveTabScore(tab,id);
+}
+function makeTabThumbClick(tab,id,src,idx){
+  return function(){
+    setTabMainImg(tab,id,src);
+    var strip=document.getElementById('tstrip-'+tab+'-'+id);
+    if(strip) strip.querySelectorAll('.thumb').forEach(function(t){t.classList.toggle('active',+t.getAttribute('data-ti')===idx);});
+  };
+}
+function setTabMainImg(tab,id,src){
+  var main=document.getElementById('tgm-'+tab+'-'+id); if(!main) return;
+  main.innerHTML=''; var img=document.createElement('img'); img.src=src; img.alt='Item';
+  img.onerror=function(){main.innerHTML='<div class="gal-ph"><span class="ico">\u26A0</span><span>Image failed</span></div>';};
+  main.appendChild(img);
+}
+function handleTabUpload(tab,id,files){
+  if(!files||!files.length) return;
+  Array.from(files).forEach(function(file){var r=new FileReader();r.onload=function(e){addTabImageSrc(tab,id,e.target.result);};r.readAsDataURL(file);});
+}
+function applyTabUrl(tab,id){
+  var input=document.getElementById('turl-'+tab+'-'+id); var url=(input.value||'').trim(); if(!url) return;
+  addTabImageSrc(tab,id,url); input.value='';
+}
+function addTabImageSrc(tab,id,src){
+  var st=TAB_STATE[tab]; if(!st.extraImages[id]) st.extraImages[id]=[];
+  var idx=st.extraImages[id].length; st.extraImages[id].push(src);
+  var strip=document.getElementById('tstrip-'+tab+'-'+id); if(!strip) return;
+  var th=document.createElement('div'); th.className='thumb'; th.setAttribute('data-ti',idx);
+  var img=document.createElement('img'); img.src=src; th.appendChild(img);
+  th.addEventListener('click',makeTabThumbClick(tab,id,src,idx));
+  strip.appendChild(th); setTabMainImg(tab,id,src);
+  strip.querySelectorAll('.thumb').forEach(function(t){t.classList.toggle('active',+t.getAttribute('data-ti')===idx);});
+  var pp=document.getElementById('tpp-'+tab+'-'+id),tog=pp&&pp.previousElementSibling;
+  if(pp&&!pp.classList.contains('open')){pp.classList.add('open');if(tog)tog.classList.add('open');}
+}
+function tabNav(tab,dir){
+  var st=TAB_STATE[tab];
+  if(dir==='next'){if(st.idx<st.items.length-1)setTabIdx(tab,st.idx+1);else showTabSummary(tab);}
+  else{if(st.idx>0)setTabIdx(tab,st.idx-1);}
+}
+function setTabIdx(tab,idx){
+  var st=TAB_STATE[tab]; st.idx=idx;
+  var item=st.items[idx];
+  var card=item&&document.getElementById('tcard-'+tab+'-'+item.id);
+  if(card) card.scrollIntoView({behavior:'smooth',block:'start'});
+  updateTabBottomNav(tab);
+}
+function updateTabProgress(tab){
+  var st=TAB_STATE[tab];
+  var rated=Object.keys(st.scores).filter(function(k){return st.scores[k].Brad&&st.scores[k].Wes;}).length;
+  var tot=st.items.length; var pct=tot>0?Math.round(rated/tot*100):0; var txt=rated+' of '+tot+' rated';
+  ['pt-'+tab,'bnav-pt-'+tab].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=txt;});
+  ['pf-'+tab,'bnav-pf-'+tab].forEach(function(id){var el=document.getElementById(id);if(el)el.style.width=pct+'%';});
+  ['pp-'+tab,'bnav-pp-'+tab].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=pct+'%';});
+}
+function updateTabBottomNav(tab){
+  var st=TAB_STATE[tab]; var item=st.items[st.idx];
+  var nm=item?item.id+': '+item.name:''; if(nm.length>55) nm=nm.substring(0,55)+'\u2026';
+  var infoEl=document.getElementById('bnav-info-'+tab); if(infoEl) infoEl.textContent=(st.idx+1)+' of '+st.items.length+' \u2014 '+nm;
+  var bb=document.getElementById('btn-back-'+tab); if(bb) bb.disabled=st.idx===0;
+  var rated=Object.keys(st.scores).filter(function(k){return st.scores[k].Brad&&st.scores[k].Wes;}).length;
+  var sb=document.getElementById('btn-summary-'+tab); if(sb) sb.style.display=rated>0?'inline-block':'none';
+  var nb=document.getElementById('btn-next-'+tab); if(nb) nb.textContent=st.idx===st.items.length-1?'See Results \u2192':'Next \u2192';
+}
+function showTabSummary(tab){
+  var st=TAB_STATE[tab];
+  var el=document.getElementById('summary-'+tab); if(!el) return;
+  el.style.display='block'; el.scrollIntoView({behavior:'smooth',block:'start'});
+  var unrated=st.items.filter(function(it){return !st.scores[it.id]||!st.scores[it.id].Brad||!st.scores[it.id].Wes;}).length;
+  var items=st.items.filter(function(it){return st.scores[it.id]&&st.scores[it.id].Brad&&st.scores[it.id].Wes;})
+    .map(function(it){
+      var s=st.scores[it.id]; var avg=(s.Brad+s.Wes)/2;
+      var gs=st.guestScores[it.id]||[]; var gavg=gs.length>0?gs.reduce(function(a,b){return a+b.score;},0)/gs.length:null;
+      return{it:it,avg:avg,b:s.Brad,w:s.Wes,gavg:gavg,gcnt:gs.length};
+    }).sort(function(a,b){return b.avg-a.avg;});
+  function tbl(rows){
+    if(!rows.length) return '<p style="color:var(--muted);font-size:0.74rem">No items rated yet.</p>';
+    return '<table class="rtbl"><thead><tr><th>#</th><th>Item</th><th class="tc">Avg</th><th class="tc">B/W</th><th class="tc">Guest Avg</th><th>Link</th></tr></thead><tbody>'+
+      rows.map(function(r,i){
+        var lk=r.it.links&&r.it.links[0]?'<a href="'+r.it.links[0].url+'" target="_blank" rel="noopener">'+esc(r.it.links[0].store)+' \u2197</a>':'\u2014';
+        var avgStr=r.avg%1===0?r.avg.toFixed(1):r.avg.toFixed(2).replace(/0+$/,'');
+        var gavgStr=r.gavg!==null?r.gavg.toFixed(1)+' <small style="color:var(--muted)">('+r.gcnt+')</small>':'<span style="color:var(--muted)">\u2014</span>';
+        return '<tr><td class="td-rk">'+(i+1)+'</td><td class="td-nm">'+esc(r.it.id)+' &middot; '+esc(r.it.name)+(r.it.specs?' <small style="color:var(--tc-light);font-size:0.6rem">('+esc(r.it.specs)+')</small>':'')+'</td><td class="td-av">'+avgStr+'</td><td class="td-sc">'+r.b+'/'+r.w+'</td><td class="td-ga">'+gavgStr+'</td><td class="td-lk">'+lk+'</td></tr>';
+      }).join('')+'</tbody></table>';
+  }
+  el.innerHTML='<div class="sum-hdr">Results</div><div class="sum-sub">'+(st.items.length-unrated)+' of '+st.items.length+' items rated &middot; sorted by Brad &amp; Wes average</div>'+
+    tbl(items)+(unrated>0?'<div class="sum-sec" style="margin-top:16px">Unrated ('+unrated+')</div><p style="font-size:0.68rem;color:var(--muted)">'+st.items.filter(function(it){return !st.scores[it.id]||!st.scores[it.id].Brad||!st.scores[it.id].Wes;}).map(function(it){return it.id;}).join(', ')+'</p>':'')+
+    '<button class="restart" onclick="backTabSummary(\''+tab+'\')">&#8592; Back to Items</button>';
+  var bnInfo=document.getElementById('bnav-info-'+tab); if(bnInfo) bnInfo.textContent='Summary';
+  var nb=document.getElementById('btn-next-'+tab); if(nb) nb.style.display='none';
+  var bb=document.getElementById('btn-back-'+tab); if(bb) bb.style.display='none';
+  var sb=document.getElementById('btn-summary-'+tab); if(sb){sb.textContent='\u2190 Back';sb.onclick=function(){backTabSummary(tab);};sb.style.display='inline-block';}
+}
+function backTabSummary(tab){
+  var st=TAB_STATE[tab];
+  var el=document.getElementById('summary-'+tab); if(el) el.style.display='none';
+  var nb=document.getElementById('btn-next-'+tab); if(nb) nb.style.display='';
+  var bb=document.getElementById('btn-back-'+tab); if(bb) bb.style.display='';
+  var sb=document.getElementById('btn-summary-'+tab); if(sb){sb.textContent='Results';sb.onclick=function(){showTabSummary(tab);};}
+  setTabIdx(tab,st.idx);
+}
+
+// Lazy-load tabs on first click
+var tabLoaded={lamps:true,rugs:false,dressers:false,misc:false};
+var _origSwitch=switchTab;
+switchTab=function(name){
+  _origSwitch(name);
+  if(!tabLoaded[name]&&(name==='dressers'||name==='misc')){
+    tabLoaded[name]=true;
+    initTab(name);
+  }
+};
+
+</script>
 </body>
 </html>
+
 
