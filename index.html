@@ -189,6 +189,39 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
   .bnav-info{white-space:normal;}
   .tab-btn{padding:9px 12px;font-size:0.65rem;}
 }
+
+/* ─── RESULT SCORES ROW ─── */
+.res-scores-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.res-rater{text-align:center;flex:1;}
+.res-rater-name{display:block;font-size:0.58rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:2px;}
+.res-rater-score{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--text);font-weight:500;line-height:1;}
+.res-avg-center{text-align:center;flex:1;}
+
+/* ─── GUEST CHIPS ─── */
+.guest-chips-label{font-size:0.58rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin:8px 0 4px;text-align:center;}
+.guest-chips{display:flex;flex-direction:column;gap:4px;}
+.guest-chip{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:2px;padding:4px 8px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;}
+.gc-name{font-size:0.68rem;color:var(--tc-light);font-weight:600;letter-spacing:0.04em;}
+.gc-score{font-size:0.68rem;color:var(--text);}
+.gc-note{font-size:0.62rem;color:var(--muted);font-style:italic;width:100%;}
+
+/* ─── RESULT COMMENTS ─── */
+.result-comments{margin:6px 0;padding:5px 8px;background:rgba(255,255,255,0.03);border-left:2px solid var(--tc-dim);border-radius:0 2px 2px 0;}
+.rc-item{font-size:0.63rem;color:var(--muted);font-style:italic;line-height:1.4;margin-bottom:2px;}
+.rc-item:last-child{margin-bottom:0;}
+.rc-who{color:var(--tc-light);font-style:normal;font-weight:600;margin-right:3px;}
+
+/* ─── GUEST EXPAND IN TABLE ─── */
+.guest-expand-btn{background:var(--tc-dim);border:1px solid rgba(184,88,48,0.3);color:var(--tc-light);padding:2px 7px;font-size:0.62rem;border-radius:2px;cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap;}
+.guest-expand-btn:hover{background:rgba(184,88,48,0.25);}
+.guest-expand-panel{margin-top:4px;}
+.comment-row td{background:transparent !important;}
+
+/* ─── DONE CARD INDICATOR ─── */
+.lamp-card.done .lamp-num::after{content:' ✓';color:rgba(120,200,120,0.7);font-size:0.75rem;}
+
+/* ─── LIGHTBOX ─── */
+#lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;cursor:zoom-out;align-items:center;justify-content:center;}
 </style>
 </head>
 <body>
@@ -203,7 +236,7 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 <div class="tab-content active" id="tab-lamps">
   <div class="hdr">
     <h1>Bedroom Lamp Rater</h1>
-    <div class="version">v4.2</div>
+    <div class="version">v4.3</div>
     <div class="sync-status" id="sync-status"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt">Loading...</span>
@@ -233,18 +266,42 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 </div>
 
 <div class="tab-content" id="tab-rugs">
-  <div class="placeholder-page">
-    <div class="placeholder-icon">&#x1F9F6;</div>
-    <h2>Rugs</h2>
-    <p>Ready when you are. Share rug candidates and this page will be fully built out with the same rating system — images, half-star ratings, purchase links, and ranked results.</p>
-    <div class="placeholder-note">Coming soon — share your rug candidates to get started</div>
+  <div class="hdr">
+    <h1>Rug Rater</h1>
+    <div class="version">v4.3</div>
+    <div class="sync-status" id="sync-status-rugs"></div>
+    <div class="prog-row">
+      <span class="prog-label" id="pt-rugs">Loading...</span>
+      <div class="prog-track"><div class="prog-fill" id="pf-rugs" style="width:0%"></div></div>
+      <span class="prog-label" id="pp-rugs"></span>
+    </div>
   </div>
+  <div id="view-rugs" style="flex:1;max-width:960px;width:100%;margin:0 auto;padding:0 0 60px;">
+    <div class="loading-state"><div class="loading-spinner"></div>Loading rugs...</div>
+  </div>
+  <div id="summary-rugs"></div>
+  <div class="bottom-nav-bar">
+    <div class="bnav-inner">
+      <span class="bnav-info" id="bnav-info-rugs">Loading...</span>
+      <div class="bnav-prog-wrap">
+        <span class="bnav-label" id="bnav-pt-rugs"></span>
+        <div class="bnav-track"><div class="bnav-fill" id="bnav-pf-rugs" style="width:0%"></div></div>
+        <span class="bnav-label" id="bnav-pp-rugs"></span>
+      </div>
+      <div class="bnav-btns">
+        <button class="bnav-btn" id="btn-back-rugs" onclick="tabNav('rugs','back')" disabled>&#8592; Back</button>
+        <button class="bnav-btn" id="btn-summary-rugs" onclick="showTabSummary('rugs')" style="display:none">Results</button>
+        <button class="bnav-btn primary" id="btn-next-rugs" onclick="tabNav('rugs','next')">Next &#8594;</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 <div class="tab-content" id="tab-dressers">
   <div class="hdr">
     <h1>Dresser Rater</h1>
-    <div class="version">v4.2</div>
+    <div class="version">v4.3</div>
     <div class="sync-status" id="sync-status-dressers"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt-dressers">Loading...</span>
@@ -833,7 +890,7 @@ init();
 <div class="tab-content" id="tab-misc">
   <div class="hdr">
     <h1>Misc Rater</h1>
-    <div class="version">v4.2</div>
+    <div class="version">v4.3</div>
     <div class="sync-status" id="sync-status-misc"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt-misc">Loading...</span>
@@ -868,10 +925,12 @@ init();
 // GENERIC TAB ENGINE
 // ═══════════════════════════════════════════════════════════════════════════════
 var TAB_STATE = {
-  dressers: { items:[], scores:{}, guestScores:{}, extraImages:{}, guestPending:{}, idx:0 },
-  misc:     { items:[], scores:{}, guestScores:{}, extraImages:{}, guestPending:{}, idx:0 }
+  rugs:     { items:[], scores:{}, guestScores:{}, extraImages:{}, guestPending:{}, guestComments:{}, comments:{}, idx:0 },
+  dressers: { items:[], scores:{}, guestScores:{}, extraImages:{}, guestPending:{}, guestComments:{}, comments:{}, idx:0 },
+  misc:     { items:[], scores:{}, guestScores:{}, extraImages:{}, guestPending:{}, guestComments:{}, comments:{}, idx:0 }
 };
 var TAB_CFG = {
+  rugs:     { table:'rugs',     scoreTable:'rug_scores',     idPrefix:'R', label:'Rug',     specsLabel:'Specs' },
   dressers: { table:'dressers', scoreTable:'dresser_scores', idPrefix:'D', label:'Dresser', specsLabel:'Specs' },
   misc:     { table:'misc',     scoreTable:'misc_scores',    idPrefix:'M', label:'Item',    specsLabel:'Details' }
 };
@@ -1316,13 +1375,520 @@ var tabLoaded={lamps:true,rugs:false,dressers:false,misc:false};
 var _origSwitch=switchTab;
 switchTab=function(name){
   _origSwitch(name);
-  if(!tabLoaded[name]&&(name==='dressers'||name==='misc')){
+  if(!tabLoaded[name]&&(name==='rugs'||name==='dressers'||name==='misc')){
     tabLoaded[name]=true;
     initTab(name);
   }
 };
 
 </script>
+<script>
+// ─── LIGHTBOX ─────────────────────────────────────────────────────────────────
+(function() {
+  var lb = document.createElement('div');
+  lb.id = 'lightbox';
+  lb.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;cursor:zoom-out;align-items:center;justify-content:center;';
+  lb.innerHTML = '<img id="lb-img" style="max-width:92vw;max-height:92vh;object-fit:contain;border-radius:2px;box-shadow:0 8px 40px rgba(0,0,0,0.6);">' +
+    '<button id="lb-close" style="position:absolute;top:16px;right:20px;background:transparent;border:none;color:rgba(255,255,255,0.7);font-size:2rem;cursor:pointer;line-height:1;padding:4px;">&times;</button>';
+  document.body.appendChild(lb);
+  lb.addEventListener('click', function(e){ if(e.target===lb||e.target.id==='lb-close') closeLightbox(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
+})();
+
+function openLightbox(src) {
+  var lb = document.getElementById('lightbox');
+  var img = document.getElementById('lb-img');
+  if (!lb || !img) return;
+  img.src = src;
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  var lb = document.getElementById('lightbox');
+  if (lb) lb.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// ─── COMMENTS STORAGE ─────────────────────────────────────────────────────────
+// comments[id] = { Brad: "note text", Wes: "note text" }
+// guestScores[id] = [ { name, score, note } ]  (note added to existing structure)
+
+// ─── ENHANCED saveScore (lamps) ───────────────────────────────────────────────
+var _origSaveScore = saveScore;
+saveScore = function(id) {
+  var s = scores[id] || {};
+  var gs = guestScores[id] || [];
+  var cm = window.lampComments && window.lampComments[id] ? window.lampComments[id] : {};
+  setStatus('Saving...', 'saving');
+  supaFetch('lamp_scores', 'POST', {
+    lamp_id: id,
+    brad_score: s.Brad || null,
+    wes_score: s.Wes || null,
+    guest_scores: JSON.stringify(gs),
+    comments: JSON.stringify(cm),
+    updated_at: new Date().toISOString()
+  }).then(function(){ setStatus('Saved', 'saved'); })
+    .catch(function(){ setStatus('Save failed', 'error'); });
+};
+
+// ─── COMMENTS INIT ────────────────────────────────────────────────────────────
+window.lampComments = {};
+
+// ─── PATCH loadScores to restore comments ─────────────────────────────────────
+var _origInit = init;
+init = function() {
+  setStatus('Loading...', 'loading');
+  Promise.all([
+    supaFetch('lamps?order=sort_order'),
+    supaFetch('lamp_scores?select=lamp_id,brad_score,wes_score,guest_scores,comments')
+  ]).then(function(results) {
+    var lampRows  = results[0];
+    var scoreRows = results[1];
+    LAMPS = (Array.isArray(lampRows) ? lampRows : []).map(function(r) {
+      var links = [];
+      if (r.link1_store && r.link1_url) links.push({store:r.link1_store, url:r.link1_url, info:r.link1_info||''});
+      if (r.link2_store && r.link2_url) links.push({store:r.link2_store, url:r.link2_url, info:r.link2_info||''});
+      if (r.link3_store && r.link3_url) links.push({store:r.link3_store, url:r.link3_url, info:r.link3_info||''});
+      return { sec:r.sec, id:r.id, name:r.name, brand:r.brand||'', height:r.height||'', note:r.note||'', imgNote:r.img_note||'', img:r.img||'', links:links };
+    });
+    (Array.isArray(scoreRows) ? scoreRows : []).forEach(function(row) {
+      if (!row.lamp_id) return;
+      if (row.brad_score || row.wes_score) scores[row.lamp_id] = { Brad:row.brad_score||0, Wes:row.wes_score||0 };
+      if (row.guest_scores) { try { guestScores[row.lamp_id] = JSON.parse(row.guest_scores); } catch(e){} }
+      if (row.comments)     { try { window.lampComments[row.lamp_id] = JSON.parse(row.comments); } catch(e){} }
+    });
+    buildAll();
+    Object.keys(scores).forEach(function(id) {
+      var s = scores[id];
+      if (s.Brad) { renderStars(id,'Brad',s.Brad); setScoreDisp(id,'Brad',s.Brad); }
+      if (s.Wes)  { renderStars(id,'Wes', s.Wes);  setScoreDisp(id,'Wes', s.Wes); }
+      if (s.Brad && s.Wes) { showResult(id); var card=document.getElementById('card-'+id); if(card) card.classList.add('done'); }
+    });
+    // Restore comment fields
+    Object.keys(window.lampComments).forEach(function(id) {
+      var cm = window.lampComments[id];
+      ['Brad','Wes'].forEach(function(name) {
+        var el = document.getElementById('comment-'+id+'-'+name);
+        if (el && cm[name]) el.value = cm[name];
+      });
+    });
+    updateProgress(); updateBottomNav();
+    setStatus('', '');
+  }).catch(function(e) {
+    console.error('Init error', e);
+    document.getElementById('view-lamps').innerHTML = '<div class="loading-state" style="color:rgba(220,80,80,0.8)">Failed to load lamps.</div>';
+    setStatus('Load failed', 'error');
+  });
+};
+
+// ─── PATCH buildCard to add: lightbox on image, comment fields, improved guest UI ──
+var _origBuildCard = buildCard;
+buildCard = function(lamp) {
+  var card = _origBuildCard(lamp);
+
+  // 1. Make main image clickable (zoom)
+  var main = card.querySelector('.gal-main');
+  if (main) {
+    main.style.cursor = 'zoom-in';
+    main.addEventListener('click', function() {
+      var img = main.querySelector('img');
+      if (img) openLightbox(img.src);
+    });
+  }
+
+  // 2. Add comment fields under each rater's stars
+  var ra = card.querySelector('.rating-area');
+  if (ra) {
+    ['Brad','Wes'].forEach(function(name) {
+      var block = ra.querySelector('#stars-'+lamp.id+'-'+name);
+      if (!block) return;
+      // Find the rater-block parent
+      var raterBlock = block.parentElement;
+      if (!raterBlock) return;
+      var commentWrap = document.createElement('div');
+      commentWrap.style.cssText = 'margin-top:5px;';
+      var ta = document.createElement('textarea');
+      ta.id = 'comment-'+lamp.id+'-'+name;
+      ta.placeholder = name+"'s note\u2026";
+      ta.rows = 2;
+      ta.style.cssText = 'width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--text);padding:4px 7px;font-size:0.64rem;border-radius:2px;font-family:Nunito,sans-serif;resize:vertical;line-height:1.4;';
+      ta.addEventListener('input', function() {
+        if (!window.lampComments[lamp.id]) window.lampComments[lamp.id] = {};
+        window.lampComments[lamp.id][name] = ta.value;
+        // Debounce save
+        clearTimeout(ta._t);
+        ta._t = setTimeout(function(){ saveScore(lamp.id); }, 1200);
+      });
+      commentWrap.appendChild(ta);
+      raterBlock.appendChild(commentWrap);
+    });
+  }
+
+  return card;
+};
+
+// ─── PATCH showResult for lamps (better guest display) ────────────────────────
+showResult = function(id) {
+  var s = scores[id]; if (!s||!s.Brad||!s.Wes) return;
+  var avg = (s.Brad+s.Wes)/2;
+  var avgStr = avg%1===0 ? avg.toFixed(1) : avg.toFixed(2).replace(/0+$/,'');
+  var gs = guestScores[id]||[];
+  var cm = window.lampComments[id]||{};
+  var rb = document.getElementById('rb-'+id); if (!rb) return;
+
+  var guestHtml = '';
+  if (gs.length > 0) {
+    var gSum = gs.reduce(function(a,b){return a+b.score;},0);
+    var gAvg = (gSum/gs.length).toFixed(1);
+    guestHtml = '<div class="guest-chips-label">Guest ratings &mdash; avg ' + gAvg + '</div>' +
+      '<div class="guest-chips">' +
+      gs.map(function(g){
+        var full=Math.floor(g.score), half=g.score%1!==0;
+        var stars='\u2605'.repeat(full)+(half?'\u00BD':'');
+        return '<div class="guest-chip"><span class="gc-name">'+esc(g.name)+'</span><span class="gc-score">'+stars+' '+g.score+'</span>'+(g.note?'<span class="gc-note">'+esc(g.note)+'</span>':'')+'</div>';
+      }).join('') + '</div>';
+  }
+
+  var commentHtml = '';
+  if (cm.Brad||cm.Wes) {
+    commentHtml = '<div class="result-comments">';
+    if (cm.Brad) commentHtml += '<div class="rc-item"><span class="rc-who">Brad:</span> '+esc(cm.Brad)+'</div>';
+    if (cm.Wes)  commentHtml += '<div class="rc-item"><span class="rc-who">Wes:</span> '+esc(cm.Wes)+'</div>';
+    commentHtml += '</div>';
+  }
+
+  rb.style.display = 'block';
+  rb.innerHTML =
+    '<div class="res-scores-row"><div class="res-rater"><span class="res-rater-name">Brad</span><span class="res-rater-score">'+s.Brad+'</span></div>' +
+    '<div class="res-avg-center"><div class="res-avg">'+avgStr+'</div><div class="res-avg-label">avg</div></div>' +
+    '<div class="res-rater"><span class="res-rater-name">Wes</span><span class="res-rater-score">'+s.Wes+'</span></div></div>' +
+    commentHtml + guestHtml;
+};
+
+// ─── PATCH submitGuest to include note ────────────────────────────────────────
+submitGuest = function(id) {
+  var nameEl  = document.getElementById('gname-'+id);
+  var noteEl  = document.getElementById('gnote-'+id);
+  var gname   = (nameEl&&nameEl.value.trim())||'';
+  var gscore  = guestPendingScore[id]||0;
+  var gnote   = (noteEl&&noteEl.value.trim())||'';
+  if (!gname)  { alert('Please enter a guest name.'); return; }
+  if (!gscore) { alert('Please select a star rating.'); return; }
+  if (!guestScores[id]) guestScores[id]=[];
+  guestScores[id].push({name:gname, score:gscore, note:gnote});
+  nameEl.value=''; if(noteEl) noteEl.value='';
+  guestPendingScore[id]=0;
+  renderGuestStars(id,0); setGuestDisp(id,0);
+  if (scores[id]&&scores[id].Brad&&scores[id].Wes) showResult(id);
+  saveScore(id);
+};
+
+// ─── PATCH buildCard guest section to add note field ──────────────────────────
+// We need to intercept after buildCard adds the guest section
+// Use MutationObserver on guestSec elements to add note textarea
+setTimeout(function() {
+  document.querySelectorAll('[id^="gname-"]').forEach(function(el) {
+    var id = el.id.replace('gname-','');
+    addGuestNoteField('lamp', id);
+  });
+}, 500);
+
+function addGuestNoteField(prefix, id) {
+  var guestSec = document.querySelector('[id^="gname-'+id+'"]');
+  if (!guestSec) return;
+  var wrap = guestSec.closest('.guest-section');
+  if (!wrap || document.getElementById('gnote-'+id)) return;
+  var ta = document.createElement('textarea');
+  ta.id = 'gnote-'+id;
+  ta.placeholder = 'Optional note\u2026';
+  ta.rows = 2;
+  ta.style.cssText = 'width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--text);padding:4px 7px;font-size:0.63rem;border-radius:2px;font-family:Nunito,sans-serif;resize:vertical;margin-bottom:5px;margin-top:2px;line-height:1.4;';
+  var submitBtn = wrap.querySelector('.guest-submit');
+  if (submitBtn) wrap.insertBefore(ta, submitBtn);
+}
+
+// ─── PATCH summary table for lamps ────────────────────────────────────────────
+showSummary = function() {
+  showingSummary = true;
+  var el = document.getElementById('summary-lamps'); if (!el) return;
+  el.style.display = 'block'; el.scrollIntoView({behavior:'smooth',block:'start'});
+  var unrated = LAMPS.filter(function(l){return !scores[l.id]||!scores[l.id].Brad||!scores[l.id].Wes;}).length;
+
+  function ranked(sec) {
+    return LAMPS.filter(function(l){return l.sec===sec&&scores[l.id]&&scores[l.id].Brad&&scores[l.id].Wes;})
+      .map(function(l){
+        var s=scores[l.id]; var avg=(s.Brad+s.Wes)/2;
+        var gs=guestScores[l.id]||[]; var gavg=gs.length>0?gs.reduce(function(a,b){return a+b.score;},0)/gs.length:null;
+        var cm=window.lampComments[l.id]||{};
+        return{l:l,avg:avg,b:s.Brad,w:s.Wes,gavg:gavg,gcnt:gs.length,gs:gs,cm:cm};
+      }).sort(function(a,b){return b.avg-a.avg;});
+  }
+
+  function tbl(items) {
+    if (!items.length) return '<p style="color:var(--muted);font-size:0.74rem">No lamps rated yet.</p>';
+    return '<table class="rtbl"><thead><tr><th>#</th><th>Lamp</th><th class="tc">Avg</th><th class="tc">Brad</th><th class="tc">Wes</th><th class="tc">Guests</th><th>Buy</th></tr></thead><tbody>'+
+      items.map(function(it,i){
+        var lk = it.l.links&&it.l.links[0]?'<a href="'+it.l.links[0].url+'" target="_blank" rel="noopener">'+esc(it.l.links[0].store)+' \u2197</a>':'\u2014';
+        var avgStr = it.avg%1===0?it.avg.toFixed(1):it.avg.toFixed(2).replace(/0+$/,'');
+        var guestCell = it.gcnt===0 ? '<span style="color:var(--muted)">\u2014</span>' :
+          '<button class="guest-expand-btn" onclick="toggleGuestExpand(this)" data-guests=\''+JSON.stringify(it.gs)+'\'>'+it.gcnt+' \u2193</button>';
+        var commentRow = (it.cm.Brad||it.cm.Wes) ?
+          '<tr class="comment-row"><td></td><td colspan="6" style="padding:2px 7px 8px;font-size:0.64rem;color:var(--muted);font-style:italic;">'+(it.cm.Brad?'<b style="color:var(--tc-light)">B:</b> '+esc(it.cm.Brad)+' ':'')+(it.cm.Wes?'<b style="color:var(--tc-light)">W:</b> '+esc(it.cm.Wes):'')+'</td></tr>' : '';
+        return '<tr><td class="td-rk">'+(i+1)+'</td><td class="td-nm">'+esc(it.l.id)+' &middot; '+esc(it.l.name)+(it.l.height?' <small style="color:var(--tc-light);font-size:0.6rem">('+esc(it.l.height)+')</small>':'')+'</td><td class="td-av">'+avgStr+'</td><td class="td-sc">'+it.b+'</td><td class="td-sc">'+it.w+'</td><td class="td-sc">'+guestCell+'</td><td class="td-lk">'+lk+'</td></tr>'+commentRow;
+      }).join('')+'</tbody></table>';
+  }
+
+  el.innerHTML='<div class="sum-hdr">Results</div><div class="sum-sub">'+(total()-unrated)+' of '+total()+' lamps rated &middot; sorted by Brad &amp; Wes average</div>'+
+    '<div class="sum-sec">Bedside Lamps</div>'+tbl(ranked('bedside'))+
+    '<div class="sum-sec">Accent Lamps</div>'+tbl(ranked('accent'))+
+    (unrated>0?'<div class="sum-sec" style="margin-top:16px">Unrated ('+unrated+')</div><p style="font-size:0.68rem;color:var(--muted)">'+LAMPS.filter(function(l){return !scores[l.id]||!scores[l.id].Brad||!scores[l.id].Wes;}).map(function(l){return l.id;}).join(', ')+'</p>':'')+
+    '<button class="restart" onclick="location.reload()">Start Over</button>';
+
+  document.getElementById('bnav-info').textContent='Summary';
+  document.getElementById('btn-next').style.display='none';
+  document.getElementById('btn-back').style.display='none';
+  var sb=document.getElementById('btn-summary'); if(sb){sb.textContent='\u2190 Back to Lamps';sb.onclick=backFromSummary;sb.style.display='inline-block';}
+};
+
+function toggleGuestExpand(btn) {
+  var guests = JSON.parse(btn.getAttribute('data-guests'));
+  var next = btn.nextElementSibling;
+  if (next && next.classList.contains('guest-expand-panel')) {
+    next.remove(); btn.textContent = guests.length+' \u2193';
+  } else {
+    var panel = document.createElement('div');
+    panel.className = 'guest-expand-panel';
+    panel.style.cssText = 'margin-top:6px;';
+    panel.innerHTML = guests.map(function(g){
+      var full=Math.floor(g.score),half=g.score%1!==0;
+      var stars='\u2605'.repeat(full)+(half?'\u00BD':'');
+      return '<div class="guest-chip"><span class="gc-name">'+esc(g.name)+'</span><span class="gc-score">'+stars+' '+g.score+'</span>'+(g.note?'<span class="gc-note">'+esc(g.note)+'</span>':'')+'</div>';
+    }).join('');
+    btn.parentNode.insertBefore(panel, btn.nextSibling);
+    btn.textContent = guests.length+' \u2191';
+  }
+}
+
+// ─── PATCH TabEngine saveTabScore to include comments ─────────────────────────
+var _origSaveTabScore = saveTabScore;
+saveTabScore = function(tab, id) {
+  var cfg=TAB_CFG[tab]; var st=TAB_STATE[tab];
+  var s=st.scores[id]||{}; var gs=st.guestScores[id]||[];
+  var cm=st.comments&&st.comments[id]?st.comments[id]:{};
+  setTabStatus(tab,'Saving...','saving');
+  supaFetch(cfg.scoreTable,'POST',{
+    item_id:id, brad_score:s.Brad||null, wes_score:s.Wes||null,
+    guest_scores:JSON.stringify(gs), comments:JSON.stringify(cm),
+    updated_at:new Date().toISOString()
+  }).then(function(){setTabStatus(tab,'Saved','saved');})
+    .catch(function(){setTabStatus(tab,'Save failed','error');});
+};
+
+// ─── PATCH initTab to restore comments ────────────────────────────────────────
+var _origInitTab = initTab;
+initTab = function(tab) {
+  var cfg=TAB_CFG[tab]; var st=TAB_STATE[tab];
+  if (!st.comments) st.comments = {};
+  setTabStatus(tab,'Loading...','loading');
+  Promise.all([
+    supaFetch(cfg.table+'?order=sort_order'),
+    supaFetch(cfg.scoreTable+'?select=item_id,brad_score,wes_score,guest_scores,comments')
+  ]).then(function(res) {
+    var rows=res[0]; var scoreRows=res[1];
+    st.items=(Array.isArray(rows)?rows:[]).map(function(r){
+      var links=[];
+      if(r.link1_store&&r.link1_url) links.push({store:r.link1_store,url:r.link1_url,info:r.link1_info||''});
+      if(r.link2_store&&r.link2_url) links.push({store:r.link2_store,url:r.link2_url,info:r.link2_info||''});
+      if(r.link3_store&&r.link3_url) links.push({store:r.link3_store,url:r.link3_url,info:r.link3_info||''});
+      return{id:r.id,name:r.name,brand:r.brand||'',specs:r.specs||'',note:r.note||'',img:r.img||'',links:links};
+    });
+    (Array.isArray(scoreRows)?scoreRows:[]).forEach(function(row){
+      if(!row.item_id) return;
+      if(row.brad_score||row.wes_score) st.scores[row.item_id]={Brad:row.brad_score||0,Wes:row.wes_score||0};
+      if(row.guest_scores){try{st.guestScores[row.item_id]=JSON.parse(row.guest_scores);}catch(e){}}
+      if(row.comments){try{st.comments[row.item_id]=JSON.parse(row.comments);}catch(e){}}
+    });
+    buildTabAll(tab);
+    Object.keys(st.scores).forEach(function(id){
+      var s=st.scores[id];
+      if(s.Brad){renderTabStars(tab,id,'Brad',s.Brad);setTabScoreDisp(tab,id,'Brad',s.Brad);}
+      if(s.Wes){renderTabStars(tab,id,'Wes',s.Wes);setTabScoreDisp(tab,id,'Wes',s.Wes);}
+      if(s.Brad&&s.Wes){showTabResult(tab,id);var card=document.getElementById('tcard-'+tab+'-'+id);if(card)card.classList.add('done');}
+    });
+    // Restore comment fields
+    Object.keys(st.comments).forEach(function(id){
+      var cm=st.comments[id];
+      ['Brad','Wes'].forEach(function(name){
+        var el=document.getElementById('tcomment-'+tab+'-'+id+'-'+name);
+        if(el&&cm[name]) el.value=cm[name];
+      });
+    });
+    updateTabProgress(tab); updateTabBottomNav(tab);
+    setTabStatus(tab,'','');
+  }).catch(function(e){
+    console.error(tab+' load error',e);
+    var v=document.getElementById('view-'+tab);
+    if(v) v.innerHTML='<div class="loading-state" style="color:rgba(220,80,80,0.8)">Failed to load.</div>';
+    setTabStatus(tab,'Load failed','error');
+  });
+};
+
+// ─── PATCH buildTabCard to add lightbox + comments + guest note ───────────────
+var _origBuildTabCard = buildTabCard;
+buildTabCard = function(tab, item) {
+  var st = TAB_STATE[tab];
+  if (!st.comments) st.comments = {};
+  var card = _origBuildTabCard(tab, item);
+
+  // Lightbox on main image
+  var main = card.querySelector('.gal-main');
+  if (main) {
+    main.style.cursor = 'zoom-in';
+    main.addEventListener('click', function(){
+      var img = main.querySelector('img'); if(img) openLightbox(img.src);
+    });
+  }
+
+  // Comment fields under each rater
+  var ra = card.querySelector('.rating-area');
+  if (ra) {
+    ['Brad','Wes'].forEach(function(name) {
+      var starsEl = ra.querySelector('#tstars-'+tab+'-'+item.id+'-'+name);
+      if (!starsEl) return;
+      var raterBlock = starsEl.parentElement;
+      if (!raterBlock) return;
+      var ta = document.createElement('textarea');
+      ta.id = 'tcomment-'+tab+'-'+item.id+'-'+name;
+      ta.placeholder = name+"'s note\u2026";
+      ta.rows = 2;
+      ta.style.cssText = 'width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--text);padding:4px 7px;font-size:0.64rem;border-radius:2px;font-family:Nunito,sans-serif;resize:vertical;margin-top:5px;line-height:1.4;';
+      ta.addEventListener('input', function(){
+        if(!st.comments[item.id]) st.comments[item.id]={};
+        st.comments[item.id][name]=ta.value;
+        clearTimeout(ta._t);
+        ta._t=setTimeout(function(){saveTabScore(tab,item.id);},1200);
+      });
+      raterBlock.appendChild(ta);
+    });
+  }
+
+  // Add note field to guest section
+  var guestSec = card.querySelector('.guest-section');
+  if (guestSec) {
+    var submitBtn = guestSec.querySelector('.guest-submit');
+    if (submitBtn && !guestSec.querySelector('.guest-note-ta')) {
+      var ta = document.createElement('textarea');
+      ta.className = 'guest-note-ta';
+      ta.id = 'tgnote-'+tab+'-'+item.id;
+      ta.placeholder = 'Optional note\u2026';
+      ta.rows = 2;
+      ta.style.cssText = 'width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--text);padding:4px 7px;font-size:0.63rem;border-radius:2px;font-family:Nunito,sans-serif;resize:vertical;margin-bottom:5px;line-height:1.4;';
+      guestSec.insertBefore(ta, submitBtn);
+    }
+  }
+
+  return card;
+};
+
+// ─── PATCH submitTabGuest to include note ─────────────────────────────────────
+var _origSubmitTabGuest = submitTabGuest;
+submitTabGuest = function(tab, id) {
+  var st=TAB_STATE[tab];
+  var nameEl=document.getElementById('tgname-'+tab+'-'+id);
+  var noteEl=document.getElementById('tgnote-'+tab+'-'+id);
+  var gname=(nameEl&&nameEl.value.trim())||'';
+  var gscore=st.guestPending[id]||0;
+  var gnote=(noteEl&&noteEl.value.trim())||'';
+  if(!gname){alert('Please enter a guest name.');return;}
+  if(!gscore){alert('Please select a star rating.');return;}
+  if(!st.guestScores[id]) st.guestScores[id]=[];
+  st.guestScores[id].push({name:gname,score:gscore,note:gnote});
+  nameEl.value=''; if(noteEl) noteEl.value='';
+  st.guestPending[id]=0; renderTabGuestStars(tab,id,0); setTabGuestDisp(tab,id,0);
+  if(st.scores[id]&&st.scores[id].Brad&&st.scores[id].Wes) showTabResult(tab,id);
+  saveTabScore(tab,id);
+};
+
+// ─── PATCH showTabResult for enhanced display ─────────────────────────────────
+var _origShowTabResult = showTabResult;
+showTabResult = function(tab, id) {
+  var st=TAB_STATE[tab]; var s=st.scores[id]; if(!s||!s.Brad||!s.Wes) return;
+  var avg=(s.Brad+s.Wes)/2;
+  var avgStr=avg%1===0?avg.toFixed(1):avg.toFixed(2).replace(/0+$/,'');
+  var gs=st.guestScores[id]||[];
+  var cm=(st.comments&&st.comments[id])||{};
+  var rb=document.getElementById('trb-'+tab+'-'+id); if(!rb) return;
+
+  var guestHtml='';
+  if(gs.length>0){
+    var gSum=gs.reduce(function(a,b){return a+b.score;},0);
+    guestHtml='<div class="guest-chips-label">Guest ratings &mdash; avg '+(gSum/gs.length).toFixed(1)+'</div>'+
+      '<div class="guest-chips">'+gs.map(function(g){
+        var full=Math.floor(g.score),half=g.score%1!==0;
+        return '<div class="guest-chip"><span class="gc-name">'+esc(g.name)+'</span><span class="gc-score">'+'\u2605'.repeat(full)+(half?'\u00BD':'')+' '+g.score+'</span>'+(g.note?'<span class="gc-note">'+esc(g.note)+'</span>':'')+'</div>';
+      }).join('')+'</div>';
+  }
+  var commentHtml='';
+  if(cm.Brad||cm.Wes){
+    commentHtml='<div class="result-comments">'+(cm.Brad?'<div class="rc-item"><span class="rc-who">Brad:</span> '+esc(cm.Brad)+'</div>':'')+(cm.Wes?'<div class="rc-item"><span class="rc-who">Wes:</span> '+esc(cm.Wes)+'</div>':'')+'</div>';
+  }
+  rb.style.display='block';
+  rb.innerHTML=
+    '<div class="res-scores-row"><div class="res-rater"><span class="res-rater-name">Brad</span><span class="res-rater-score">'+s.Brad+'</span></div>'+
+    '<div class="res-avg-center"><div class="res-avg">'+avgStr+'</div><div class="res-avg-label">avg</div></div>'+
+    '<div class="res-rater"><span class="res-rater-name">Wes</span><span class="res-rater-score">'+s.Wes+'</span></div></div>'+
+    commentHtml+guestHtml;
+};
+
+// ─── PATCH showTabSummary for enhanced table ───────────────────────────────────
+var _origShowTabSummary = showTabSummary;
+showTabSummary = function(tab) {
+  var st=TAB_STATE[tab];
+  var el=document.getElementById('summary-'+tab); if(!el) return;
+  el.style.display='block'; el.scrollIntoView({behavior:'smooth',block:'start'});
+  var unrated=st.items.filter(function(it){return !st.scores[it.id]||!st.scores[it.id].Brad||!st.scores[it.id].Wes;}).length;
+  var items=st.items.filter(function(it){return st.scores[it.id]&&st.scores[it.id].Brad&&st.scores[it.id].Wes;})
+    .map(function(it){
+      var s=st.scores[it.id]; var avg=(s.Brad+s.Wes)/2;
+      var gs=st.guestScores[it.id]||[]; var gavg=gs.length>0?gs.reduce(function(a,b){return a+b.score;},0)/gs.length:null;
+      var cm=(st.comments&&st.comments[it.id])||{};
+      return{it:it,avg:avg,b:s.Brad,w:s.Wes,gavg:gavg,gcnt:gs.length,gs:gs,cm:cm};
+    }).sort(function(a,b){return b.avg-a.avg;});
+
+  function tbl(rows){
+    if(!rows.length) return '<p style="color:var(--muted);font-size:0.74rem">No items rated yet.</p>';
+    return '<table class="rtbl"><thead><tr><th>#</th><th>Item</th><th class="tc">Avg</th><th class="tc">Brad</th><th class="tc">Wes</th><th class="tc">Guests</th><th>Buy</th></tr></thead><tbody>'+
+      rows.map(function(r,i){
+        var lk=r.it.links&&r.it.links[0]?'<a href="'+r.it.links[0].url+'" target="_blank" rel="noopener">'+esc(r.it.links[0].store)+' \u2197</a>':'\u2014';
+        var avgStr=r.avg%1===0?r.avg.toFixed(1):r.avg.toFixed(2).replace(/0+$/,'');
+        var guestCell=r.gcnt===0?'<span style="color:var(--muted)">\u2014</span>':
+          '<button class="guest-expand-btn" onclick="toggleGuestExpand(this)" data-guests=\''+JSON.stringify(r.gs)+'\'>'+r.gcnt+' \u2193</button>';
+        var commentRow=(r.cm.Brad||r.cm.Wes)?
+          '<tr class="comment-row"><td></td><td colspan="6" style="padding:2px 7px 8px;font-size:0.64rem;color:var(--muted);font-style:italic;">'+(r.cm.Brad?'<b style="color:var(--tc-light)">B:</b> '+esc(r.cm.Brad)+' ':'')+(r.cm.Wes?'<b style="color:var(--tc-light)">W:</b> '+esc(r.cm.Wes):'')+'</td></tr>':'';
+        return '<tr><td class="td-rk">'+(i+1)+'</td><td class="td-nm">'+esc(r.it.id)+' &middot; '+esc(r.it.name)+(r.it.specs?' <small style="color:var(--tc-light);font-size:0.6rem">('+esc(r.it.specs)+')</small>':'')+'</td><td class="td-av">'+avgStr+'</td><td class="td-sc">'+r.b+'</td><td class="td-sc">'+r.w+'</td><td class="td-sc">'+guestCell+'</td><td class="td-lk">'+lk+'</td></tr>'+commentRow;
+      }).join('')+'</tbody></table>';
+  }
+  el.innerHTML='<div class="sum-hdr">Results</div><div class="sum-sub">'+(st.items.length-unrated)+' of '+st.items.length+' items rated &middot; sorted by Brad &amp; Wes average</div>'+
+    tbl(items)+(unrated>0?'<div class="sum-sec" style="margin-top:16px">Unrated ('+unrated+')</div><p style="font-size:0.68rem;color:var(--muted)">'+st.items.filter(function(it){return !st.scores[it.id]||!st.scores[it.id].Brad||!st.scores[it.id].Wes;}).map(function(it){return it.id;}).join(', ')+'</p>':'')+
+    '<button class="restart" onclick="backTabSummary(\''+tab+'\')">&#8592; Back to Items</button>';
+  var bnInfo=document.getElementById('bnav-info-'+tab); if(bnInfo) bnInfo.textContent='Summary';
+  var nb=document.getElementById('btn-next-'+tab); if(nb) nb.style.display='none';
+  var bb=document.getElementById('btn-back-'+tab); if(bb) bb.style.display='none';
+  var sb=document.getElementById('btn-summary-'+tab); if(sb){sb.textContent='\u2190 Back';sb.onclick=function(){backTabSummary(tab);};sb.style.display='inline-block';}
+};
+
+// ─── Also make lamp gal-main images zoomable after buildAll ───────────────────
+var _origBuildAll = buildAll;
+buildAll = function() {
+  _origBuildAll();
+  // Patch already applied via buildCard override above
+};
+
+// Re-run init with all patches now in place
+setTimeout(function(){ init(); }, 0);
+
+</script>
+
 </body>
 </html>
 
