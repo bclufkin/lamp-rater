@@ -16,7 +16,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,sans-serif;font-weight:300;min-height:100vh;display:flex;flex-direction:column;}
-.tab-nav{background:var(--navy-dark);border-bottom:2px solid var(--tc);display:flex;}
+.tab-nav{background:var(--navy-dark);border-bottom:2px solid var(--tc);display:flex;position:sticky;top:0;z-index:200;}
 .tab-btn{background:transparent;border:none;color:var(--muted);padding:10px 20px;font-family:'Nunito',sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color 0.15s,border-color 0.15s;}
 .tab-btn:hover{color:var(--text);}
 .tab-btn.active{color:var(--tc-light);border-bottom-color:var(--tc);}
@@ -43,7 +43,7 @@ body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,san
 .loading-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:80px 24px;color:var(--muted);font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;}
 .loading-spinner{width:32px;height:32px;border:3px solid rgba(184,88,48,0.2);border-top-color:var(--tc);border-radius:50%;animation:spin 0.8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.sec-div{padding:16px 24px;background:var(--plum);border-top:2px solid var(--tc);border-bottom:2px solid var(--tc);text-align:center;position:sticky;top:0;z-index:50;}
+.sec-div{padding:16px 24px;background:var(--plum);border-top:2px solid var(--tc);border-bottom:2px solid var(--tc);text-align:center;position:sticky;top:42px;z-index:50;}
 .sec-div h2{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--cream);}
 .sec-line{display:flex;align-items:center;gap:12px;justify-content:center;margin-top:4px;}
 .sec-line .ln{flex:1;max-width:55px;height:1px;background:var(--tc);opacity:0.5;}
@@ -66,7 +66,7 @@ body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,san
 .form-btns{display:flex;gap:8px;}
 .form-submit{background:var(--tc);border:none;color:var(--cream);padding:6px 16px;font-family:'Nunito',sans-serif;font-size:0.72rem;letter-spacing:0.08em;cursor:pointer;border-radius:2px;}
 .form-cancel{background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--muted);padding:6px 12px;font-family:'Nunito',sans-serif;font-size:0.72rem;cursor:pointer;border-radius:2px;}
-.lamp-card{padding:20px 24px 16px;border-bottom:1px solid var(--border);scroll-margin-top:70px;}
+.lamp-card{padding:20px 24px 16px;border-bottom:1px solid var(--border);scroll-margin-top:110px;}
 .lamp-card.done{opacity:0.75;}
 .lamp-title{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:4px;}
 .lamp-num{font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:var(--tc);font-weight:500;letter-spacing:0.08em;}
@@ -244,7 +244,7 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 <div class="tab-content active" id="tab-lamps">
   <div class="hdr">
     <h1>Bedroom Lamp Rater</h1>
-    <div class="version">v4.6</div>
+    <div class="version">v4.7</div>
     <div class="sync-status" id="sync-status"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt">Loading...</span>
@@ -276,7 +276,7 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 <div class="tab-content" id="tab-rugs">
   <div class="hdr">
     <h1>Rug Rater</h1>
-    <div class="version">v4.6</div>
+    <div class="version">v4.7</div>
     <div class="sync-status" id="sync-status-rugs"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt-rugs">Loading...</span>
@@ -309,7 +309,7 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 <div class="tab-content" id="tab-dressers">
   <div class="hdr">
     <h1>Dresser Rater</h1>
-    <div class="version">v4.6</div>
+    <div class="version">v4.7</div>
     <div class="sync-status" id="sync-status-dressers"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt-dressers">Loading...</span>
@@ -393,7 +393,7 @@ function total() { return LAMPS.length; }
 function init() {
   setStatus('Loading...', 'loading');
   Promise.all([
-    supaFetch('lamps?order=sort_order'),
+    supaFetch('lamps?order=sec.asc,sort_order.asc'),
     supaFetch('lamp_scores?select=lamp_id,brad_score,wes_score,guest_scores')
   ]).then(function(results) {
     var lampRows   = results[0];
@@ -907,7 +907,7 @@ init();
 <div class="tab-content" id="tab-misc">
   <div class="hdr">
     <h1>Misc Rater</h1>
-    <div class="version">v4.6</div>
+    <div class="version">v4.7</div>
     <div class="sync-status" id="sync-status-misc"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt-misc">Loading...</span>
@@ -1460,7 +1460,7 @@ var _origInit = init;
 init = function() {
   setStatus('Loading...', 'loading');
   Promise.all([
-    supaFetch('lamps?order=sort_order'),
+    supaFetch('lamps?order=sec.asc,sort_order.asc'),
     supaFetch('lamp_scores?select=lamp_id,brad_score,wes_score,guest_scores,comments')
   ]).then(function(results) {
     var lampRows  = results[0];
