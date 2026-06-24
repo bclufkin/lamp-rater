@@ -244,7 +244,7 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 <div class="tab-content active" id="tab-lamps">
   <div class="hdr">
     <h1>Bedroom Lamp Rater</h1>
-    <div class="version">v4.5</div>
+    <div class="version">v4.6</div>
     <div class="sync-status" id="sync-status"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt">Loading...</span>
@@ -276,7 +276,7 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 <div class="tab-content" id="tab-rugs">
   <div class="hdr">
     <h1>Rug Rater</h1>
-    <div class="version">v4.5</div>
+    <div class="version">v4.6</div>
     <div class="sync-status" id="sync-status-rugs"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt-rugs">Loading...</span>
@@ -309,7 +309,7 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 <div class="tab-content" id="tab-dressers">
   <div class="hdr">
     <h1>Dresser Rater</h1>
-    <div class="version">v4.5</div>
+    <div class="version">v4.6</div>
     <div class="sync-status" id="sync-status-dressers"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt-dressers">Loading...</span>
@@ -520,7 +520,7 @@ function submitAddForm(sec) {
     if(s&&u) links.push({store:s,url:u,info:i});
   });
   var lamp={sec:sec,id:newId,name:name,brand:g('af-brand-'+sec),height:g('af-ht-'+sec),note:g('af-note-'+sec),imgNote:'',img:g('af-img-'+sec),links:links};
-  var sortOrder = LAMPS.length + 1;
+  var sortOrder = LAMPS.filter(function(l){return l.sec===sec;}).length;
   LAMPS.push(lamp);
   setStatus('Saving new lamp...','saving');
   saveLampToDb(lamp, sortOrder).then(function(){ setStatus('Lamp saved','saved'); }).catch(function(){ setStatus('Save failed','error'); });
@@ -528,7 +528,13 @@ function submitAddForm(sec) {
   var lastCard=null;
   LAMPS.forEach(function(l){if(l.sec===sec&&l.id!==newId){var el=document.getElementById('card-'+l.id);if(el)lastCard=el;}});
   var nc=buildCard(lamp,LAMPS.length-1);
-  if(lastCard&&lastCard.nextSibling) view.insertBefore(nc,lastCard.nextSibling); else view.appendChild(nc);
+  if(lastCard){
+    lastCard.parentNode.insertBefore(nc, lastCard.nextSibling||null);
+  } else {
+    var secDiv=document.getElementById('sec-'+sec);
+    if(secDiv&&secDiv.nextSibling) view.insertBefore(nc,secDiv.nextSibling);
+    else view.appendChild(nc);
+  }
   var cntEl=document.getElementById('cnt-'+sec); if(cntEl) cntEl.textContent=LAMPS.filter(function(l){return l.sec===sec;}).length+' lamps';
   toggleAddForm(sec); updateProgress(); updateBottomNav();
   nc.scrollIntoView({behavior:'smooth',block:'start'});
@@ -901,7 +907,7 @@ init();
 <div class="tab-content" id="tab-misc">
   <div class="hdr">
     <h1>Misc Rater</h1>
-    <div class="version">v4.5</div>
+    <div class="version">v4.6</div>
     <div class="sync-status" id="sync-status-misc"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt-misc">Loading...</span>
