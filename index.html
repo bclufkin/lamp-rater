@@ -76,8 +76,8 @@ body{background:var(--navy);color:var(--text);font-family:'Nunito',system-ui,san
 .lamp-note{font-size:0.66rem;color:var(--muted);font-style:italic;letter-spacing:0.04em;margin-bottom:12px;}
 .card-body{display:flex;gap:16px;align-items:flex-start;}
 .panel-left{flex:1;min-width:0;}
-.panel-right{flex:0 0 200px;min-width:0;display:flex;flex-direction:column;}
-.rating-area{flex:1;overflow-y:auto;max-height:var(--img-h);}
+.panel-right{flex:0 0 200px;min-width:0;}
+.rating-area{overflow:visible;}
 .gallery{background:var(--navy-dark);border-radius:3px;overflow:hidden;}
 .gal-main{width:100%;height:var(--img-h);display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .gal-main img{width:100%;height:100%;object-fit:contain;display:block;}
@@ -244,7 +244,7 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 <div class="tab-content active" id="tab-lamps">
   <div class="hdr">
     <h1>Bedroom Lamp Rater</h1>
-    <div class="version">v4.7</div>
+    <div class="version">v4.8</div>
     <div class="sync-status" id="sync-status"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt">Loading...</span>
@@ -276,7 +276,7 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 <div class="tab-content" id="tab-rugs">
   <div class="hdr">
     <h1>Rug Rater</h1>
-    <div class="version">v4.7</div>
+    <div class="version">v4.8</div>
     <div class="sync-status" id="sync-status-rugs"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt-rugs">Loading...</span>
@@ -309,7 +309,7 @@ table.rtbl tr:hover td{background:rgba(255,255,255,0.02);}
 <div class="tab-content" id="tab-dressers">
   <div class="hdr">
     <h1>Dresser Rater</h1>
-    <div class="version">v4.7</div>
+    <div class="version">v4.8</div>
     <div class="sync-status" id="sync-status-dressers"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt-dressers">Loading...</span>
@@ -907,7 +907,7 @@ init();
 <div class="tab-content" id="tab-misc">
   <div class="hdr">
     <h1>Misc Rater</h1>
-    <div class="version">v4.7</div>
+    <div class="version">v4.8</div>
     <div class="sync-status" id="sync-status-misc"></div>
     <div class="prog-row">
       <span class="prog-label" id="pt-misc">Loading...</span>
